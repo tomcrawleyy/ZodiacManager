@@ -1,0 +1,19 @@
+name: ZodiacManager
+author: TomCrawley_
+version: 1.0
+description: Plugin manager for Zodiac
+main: com.zodiacmc.ZodiacManager.ZodiacManager
+commands:
+  market:
+    description: Customized version of automall for ZodiacMC
+    usage: /market
+  serverrestarter:
+    description: Custom server restarter plugin for ZodiacMC
+    usage: /serverrestarter
+  autorank:
+    description: Custom autorank plugin for ZodiacMC
+    usage: /autorank
+    aliases: [ar]
+  chunkmanager:
+    description: Custom chunkmanager plugin for ZodiacMC
+    usage: /chunkmanager

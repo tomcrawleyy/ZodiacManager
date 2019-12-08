@@ -1,0 +1,81 @@
+package com.zodiacmc.ZodiacManager.Cuboids;
+
+import org.bukkit.Location;
+import org.bukkit.World;
+
+public class Cuboid {
+	
+	private World world;
+	private int lowerX;
+	private int upperX;
+	private int lowerY;
+	private int upperY;
+	private int lowerZ;
+	private int upperZ;
+	private boolean ignoreHeight;
+	
+	public Cuboid(Location loc1, Location loc2, boolean ignoreHeight) {
+		this.upperX = Math.max(loc1.getBlockX(), loc2.getBlockX());
+		this.lowerX = Math.min(loc1.getBlockX(), loc2.getBlockX());
+		this.upperY = ignoreHeight ? 256 : Math.max(loc1.getBlockY(), loc2.getBlockY());
+		this.lowerY = ignoreHeight ? 0 : Math.min(loc1.getBlockY(), loc2.getBlockY());
+		this.upperZ = Math.max(loc1.getBlockZ(), loc2.getBlockZ());
+		this.lowerZ = Math.min(loc1.getBlockZ(), loc2.getBlockZ());
+		this.world = loc1.getWorld();
+		this.ignoreHeight = ignoreHeight;
+	}
+	
+	public boolean extendsBuildHeight() {
+		return ignoreHeight;
+	}
+	
+	public int getUpperX() {
+		return this.upperX;
+	}
+	
+	public int getLowerX() {
+		return this.lowerX;
+	}
+	
+	public int getUpperY() {
+		return this.upperY;
+	}
+	
+	public int getLowerY() {
+		return this.lowerY;
+	}
+	
+	public int getUpperZ() {
+		return this.upperZ;
+	}
+	
+	public int getLowerZ() {
+		return this.lowerZ;
+	}
+	
+	public Location getCenter() {
+		int x1 = this.upperX+1;
+		int y1 = this.upperY+1;
+		int z1 = this.upperZ+1;
+		return new Location(this.world, this.lowerX + ((x1- this.lowerX) / 2.0D), y1, this.lowerZ + ((z1-this.lowerZ) / 2.0D));
+	}
+	
+	public Location getLowerNE() {
+		return new Location(this.world, this.lowerX, this.lowerY, this.lowerZ);
+	}
+	
+	public Location getUpperSW() {
+		return new Location(this.world, this.upperX, this.upperY, this.upperZ);
+	}
+	
+	public boolean isInCuboid(Location loc) {
+		if (loc.getBlockX() > this.upperX | loc.getBlockX() < this.lowerX)
+			return false;
+		if (loc.getBlockY() > this.upperY | loc.getBlockY() < this.lowerY)
+			return false;
+		if (loc.getBlockZ() > this.upperZ | loc.getBlockZ() < this.lowerZ)
+			return false;
+		return true;
+	}
+
+}
