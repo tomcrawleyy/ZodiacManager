@@ -11,7 +11,6 @@ import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
-import com.zodiacmc.ZodiacManager.Utilities.CommandUtil;
 import com.zodiacmc.ZodiacManager.Utilities.LocationUtil;
 import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
 
@@ -32,7 +31,7 @@ public class CheckTime extends SubCommand {
 			}
 		}
 		if (ownedShops.size() == 0)
-			return CommandUtil.success(sender, command.getPrefix() + " &cError: You do not own any shops!");
+			return this.error("You do not own any shops!");
 		for (Shop shop : ownedShops) {
 			u.sendMessage(command.getPrefix() + " &aYou have a plot in the " + shop.getMall().getType().getReadableName()
 					+ " mall, at [" + LocationUtil.toString(shop.getCuboid().getCenter()) + "] that will expire in "

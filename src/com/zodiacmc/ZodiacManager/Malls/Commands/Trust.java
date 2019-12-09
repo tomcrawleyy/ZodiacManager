@@ -1,7 +1,6 @@
 package com.zodiacmc.ZodiacManager.Malls.Commands;
 
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

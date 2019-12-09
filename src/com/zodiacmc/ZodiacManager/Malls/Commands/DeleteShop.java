@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
 import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
-import com.zodiacmc.ZodiacManager.Utilities.CommandUtil;
 
 public class DeleteShop extends SubCommand {
 	
@@ -17,7 +16,7 @@ public class DeleteShop extends SubCommand {
 	public boolean processCommand(CommandSender sender, String[] args) {
 		Player p = (Player)sender;
 		if (args.length != 0)
-			return CommandUtil.success(sender, command.getPrefix() + " &cUsage: /AutoMalls DeleteShop");
+			return this.usage("AutoMalls DeleteShop");
 		Mall mall = null;
 		for (Mall localMall : Mall.getMalls()) {
 			if (localMall.getCuboid().isInCuboid(p.getLocation())) {
@@ -26,7 +25,7 @@ public class DeleteShop extends SubCommand {
 			}
 		}
 		if (mall == null)
-			return CommandUtil.success(sender, command.getPrefix() + " &cError: You must be standing in a shop to perform this command.");
+			return this.error("You must be standing in a shop to perform this command.");
 		Shop shop = null;
 		for (Shop localShop : mall.getShops()) {
 			if (localShop.getCuboid().isInCuboid(p.getLocation())) {
@@ -35,7 +34,7 @@ public class DeleteShop extends SubCommand {
 			}
 		}
 		if (shop == null)
-			return CommandUtil.success(sender, command.getPrefix() + " &cError: You must be standing in a shop to perform this command.");
+			return this.error("You must be standing in a shop to perform this command.");
 		int id = shop.getId();
 		mall.getShops().remove(shop);
 		for (Shop localShop : mall.getShops()) {
@@ -44,7 +43,7 @@ public class DeleteShop extends SubCommand {
 			}
 		}
 		//TODO save mall config
-		return CommandUtil.success(sender, command.getPrefix() + " &aThe shop you are standing in has now been removed from the mall.");
+		return this.resolve("&aThe shop you are standing in has now been removed from the mall.");
 	}
 	
 	public String permissionRequired() {

@@ -21,11 +21,9 @@ public class Warp extends SubCommand {
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
-		User user = UserManager.getInstance().getOnlineUser(sender.getName());
 		Player player = (Player) sender;
 		if (args.length == 0 | args.length > 2) {
-			return CommandUtil.success(sender,
-					command.getPrefix() + " &cUsage: /AutoMalls Warp <PlayerName> <Optional<Donor|Default>>");
+			return this.usage("AutoMalls Warp <PlayerName> <Optional<Donor|Default>>");
 		}
 		if (args.length == 2) {
 			Mall mall = null;
@@ -36,8 +34,7 @@ public class Warp extends SubCommand {
 				}
 			}
 			if (mall == null) {
-				return CommandUtil.success(sender,
-						command.getPrefix() + " &cUsage: /AutoMalls Warp <PlayerName> <Optional<Donor|Default>>");
+				return this.usage("AutoMalls Warp <PlayerName> <Optional<Donor|Default>>");
 			}
 			Shop shop = null;
 			for (Shop localShop : mall.getShops()) {
@@ -46,13 +43,10 @@ public class Warp extends SubCommand {
 					break;
 				}
 			}
-			if (shop == null) {
-				return CommandUtil.success(sender,
-						command.getPrefix() + " &cError: This player does not own a shop in the "
-								+ mall.getType().getReadableName() + " mall.");
-			}
+			if (shop == null)
+				return this.error("This player does not own a shop in the " + mall.getType().getReadableName() + " mall.");
 			player.teleport(shop.getWarp());
-			return CommandUtil.success(sender, command.getPrefix() + " &aYou have been successfully teleported to "
+			return this.resolve("You have been successfully teleported to "
 					+ shop.getOwner().getName() + "'s shop in the " + mall.getType().getReadableName() + " mall.");
 		}
 		List<Shop> ownedShops = new ArrayList<Shop>();
@@ -65,16 +59,14 @@ public class Warp extends SubCommand {
 			}
 		}
 		if (ownedShops.isEmpty())
-			return CommandUtil.success(sender, command.getPrefix() + " &cError: This player does not own a shop.");
+			return this.error("This player does not own a shop.");
 		if (ownedShops.size() > 1) {
 			if (player.hasPermission("AutoMalls.Entry.Donor"))
-				return CommandUtil.success(sender, command.getPrefix()
-						+ " &aUser has a shop in multiple malls which you can access, please specify using /AutoMalls Warp <PlayerName> <Donor|Default>");
+				return this.error("User has a shop in multiple malls which you can access, please specify using /AutoMalls Warp <PlayerName> <Donor|Default>");
 			for (Shop shop : ownedShops) {
 				if (shop.getMall().getType() == MallType.DEFAULT) {
 					player.teleport(shop.getWarp());
-					return CommandUtil.success(sender,
-							command.getPrefix() + "&aYou have been successfully teleported to "
+					return this.resolve("You have been successfully teleported to "
 									+ shop.getOwner().getName() + "'s shop in the "
 									+ shop.getMall().getType().getReadableName() + " mall.");
 				}
@@ -83,12 +75,10 @@ public class Warp extends SubCommand {
 		Shop shop = ownedShops.get(0);
 		if (shop.getMall().getType() == MallType.DONOR) {
 			if (!player.hasPermission("AutoMalls.Entry.Donor"))
-				return CommandUtil.success(sender, command.getPrefix()
-						+ " &cError: This player's only shop is in a mall you dont have access to.");
+				return this.error("This player's only shop is in a mall you dont have access to.");
 		}
 		player.teleport(shop.getWarp());
-		return CommandUtil.success(sender,
-				command.getPrefix() + " &aYou have been successfully teleported to " + shop.getOwner().getName()
+		return this.resolve("You have been successfully teleported to " + shop.getOwner().getName()
 						+ "'s shop in the " + shop.getMall().getType().getReadableName() + " mall.");
 	}
 

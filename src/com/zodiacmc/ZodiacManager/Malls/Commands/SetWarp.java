@@ -9,7 +9,6 @@ import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
-import com.zodiacmc.ZodiacManager.Utilities.CommandUtil;
 
 public class SetWarp extends SubCommand {
 
@@ -28,8 +27,7 @@ public class SetWarp extends SubCommand {
 			}
 		}
 		if (mall == null)
-			return CommandUtil.success(sender,
-					command.getPrefix() + "&cError: You must be inside a mall to perform this command!");
+			return this.error("You must be inside a mall to perform this command!");
 		Shop shop = null;
 		for (Shop localShop : mall.getShops()) {
 			if (localShop.getCuboid().isInCuboid(player.getLocation())) {
@@ -38,17 +36,15 @@ public class SetWarp extends SubCommand {
 			}
 		}
 		if (shop == null)
-			return CommandUtil.success(sender,
-					command.getPrefix() + " &cError: You must be standing inside a shop to perform this command!");
+			return this.error("You must be standing inside a shop to perform this command!");
 		if (shop.getOwner() != user) {
 			if (!shop.getTrustedUsers().containsKey(user)
 					| shop.getTrusteesPermissions(user).contains(MallPermissionType.SETWARP))
-				return CommandUtil.success(sender,
-						command.getPrefix() + " &cError: You do not have the required permissions to set "
+				return this.error("You do not have the required permissions to set "
 								+ shop.getOwner().getName() + "'s shop warp.");
 		}
 		shop.setWarp(player.getLocation());
-		return CommandUtil.success(sender, command.getPrefix() + " &aShop warp has been successfully updated!");
+		return this.resolve("Shop warp has been successfully updated!");
 	}
 
 	public String permissionRequired() {

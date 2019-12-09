@@ -12,7 +12,6 @@ import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
-import com.zodiacmc.ZodiacManager.Utilities.CommandUtil;
 
 public class Home extends SubCommand {
 
@@ -31,26 +30,26 @@ public class Home extends SubCommand {
 		}
 		if (args.length == 0) {
 			if (ownedShops.size() == 0) {
-				return CommandUtil.success(sender, command.getPrefix() + " &cError: You do not own any shops!");
+				return this.error("You do not own any shops!");
 			}
 			if (ownedShops.size() == 1) {
 				Player p = (Player) sender;
 				p.teleport(ownedShops.get(0).getCuboid().getCenter());
-				return CommandUtil.success(sender, command.getPrefix() + " &aYou have been successfully teleported to you shop!");
+				return this.resolve("You have been successfully teleported to you shop!");
 			}
 			if (ownedShops.size() == 2) {
-				return CommandUtil.success(sender, command.getPrefix() + " &cError: You own more than one shop, Usage: /AutoMalls Home <Default|Donor>");
+				return this.error("You own more than one shop, Usage: /AutoMalls Home <Default|Donor>");
 			}
 			if (ownedShops.size() > 2) {
 				for (User user : UserManager.getInstance().getOnlineStaff()) {
 					user.sendMessage(command.getPrefix() + " &cStaffNotice: " + u.getName() + " has " + ownedShops.size() + " mall plots!");
 				}
-				return CommandUtil.success(sender, command.getPrefix() + " &cError: You own too many shops!");
+				return this.error("You own too many shops!");
 			}
 				//handle error
 		}
 		if (args.length > 1 | (args.length == 1 && !args[0].equalsIgnoreCase("default") && !args[0].equalsIgnoreCase("donor"))) {
-			return CommandUtil.success(sender, command.getPrefix() + " &cUsage: /AutoMalls Home <Optional<Donor|Default>>");
+			return this.usage("AutoMalls Home <Optional<Donor|Default>>");
 		}
 		MallType type = null;
 		for (MallType localType : MallType.values()) {
@@ -63,10 +62,10 @@ public class Home extends SubCommand {
 			if (shop.getMall().getType() == type) {
 				Player p = (Player)sender;
 				p.teleport(shop.getCuboid().getCenter());
-				return CommandUtil.success(sender, command.getPrefix() + " &aYou have been successfully teleported to you shop!");
+				return this.resolve("You have been successfully teleported to you shop!");
 			}
 		}
-		return CommandUtil.success(sender, command.getPrefix() + " &cError: You do not own a shop in the mall you specified!");
+		return this.error("You do not own a shop in the mall you specified!");
 	}
 
 	public String permissionRequired() {

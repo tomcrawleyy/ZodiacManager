@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
-import com.zodiacmc.ZodiacManager.Utilities.CommandUtil;
 
 public class IgnoreProtection extends SubCommand {
 	
@@ -22,26 +21,26 @@ public class IgnoreProtection extends SubCommand {
 		User u = UserManager.getInstance().getOnlineUser(sender.getName());
 		if (args.length == 1) {
 			if (!args[0].equalsIgnoreCase("on") && !args[0].equalsIgnoreCase("off")) {
-				return CommandUtil.success(sender, command.getPrefix() + " &cUsage: /AutoMalls IgnoreProtection <Optional<On|Off>>");
+				return this.usage("AutoMalls IgnoreProtection <Optional<On|Off>>");
 			}
 			if (args[0].equalsIgnoreCase("on")) {
 				if (ignoredUsers.contains(u)) {
-					return CommandUtil.success(sender, command.getPrefix() + " &aYou are already ignoring mall protection!");
+					return this.error("You are already ignoring mall protection!");
 				}
 				ignoredUsers.add(u);
-				return CommandUtil.success(sender, command.getPrefix() + " &aYou are now ignoring mall protection!");
+				return this.resolve("You are now ignoring mall protection!");
 			}
 			if (!ignoredUsers.contains(u)) {
-				return CommandUtil.success(sender, command.getPrefix() + " &aYou aren't ignoring mall protection!");
+				return this.error("You aren't ignoring mall protection!");
 			}
-			return CommandUtil.success(sender, command.getPrefix() + " &aYou are no longer ignoring mall protection!");
+			return this.resolve("You are no longer ignoring mall protection!");
 		}
 		if (ignoredUsers.contains(u)) {
 			ignoredUsers.remove(u);
-			return CommandUtil.success(sender, command.getPrefix() + " &aYou are no longer ignoring mall protection!");
+			return this.resolve("You are no longer ignoring mall protection!");
 		}
 		ignoredUsers.add(u);
-		return CommandUtil.success(sender, command.getPrefix() + " &aYou are now ignoring mall protection!");
+		return this.resolve("You are now ignoring mall protection!");
 	}
 	
 	public static List<User> getUsersIgnoringProtection(){
