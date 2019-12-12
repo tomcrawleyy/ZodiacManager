@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlock;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
-import com.zodiacmc.ZodiacManager.Utilities.CommandUtil;
 import com.zodiacmc.ZodiacManager.Utilities.LocationUtil;
 import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
 
@@ -20,7 +19,7 @@ public class CheckOnline extends SubCommand {
 	@Override
 	public boolean processCommand(CommandSender sender, String[] args) {
 		if (args.length != 1)
-			return CommandUtil.success(sender, command.getPrefix() + " &cUsage: /ChunkManager CheckOnline <Block> <Optional<PageNumber>>");
+			return this.usage("ChunkManager CheckOnline <Block> <Optional<PageNumber>>");
 		WorldBlockType type = null;
 		for (WorldBlockType localType : WorldBlockType.values()) {
 			if (args[0].equalsIgnoreCase(localType.name())) {
@@ -28,10 +27,10 @@ public class CheckOnline extends SubCommand {
 			}
 		}
 		if (type == null)
-			return CommandUtil.success(sender, command.getPrefix() + " &cError: ChunkManager does not monitor a block named " + args[0]);
+			return this.error("ChunkManager does not monitor a block named " + args[0]);
 		List<WorldBlock> blocks = WorldBlock.getLoadedInstances(type);
 		if (blocks.size() == 0)
-			return CommandUtil.success(sender, command.getPrefix() + " &aThere are currently no instances of this block loaded!");
+			return this.resolve("There are currently no instances of this block loaded!");
 		if (args.length == 1) {
 			int count = 10;
 			if (blocks.size() < 10)
@@ -46,10 +45,10 @@ public class CheckOnline extends SubCommand {
 			try {
 				page = Integer.parseInt(args[1]);
 			} catch (NumberFormatException e) {
-				return CommandUtil.success(sender, command.getPrefix() + " &cUsage: /ChunkManager CheckOnline <Block> <Optional<PageNumber>>");
+				return this.usage("ChunkManager CheckOnline <Block> <Optional<PageNumber>>");
 			}
 			if (page > maxPages)
-				return CommandUtil.success(sender,  command.getPrefix() + " &cError: Page does not exist! Last page number: " + maxPages);
+				return this.error("Page does not exist! Last page number: " + maxPages);
 			int amount = page*10 + 10;
 			if (blocks.size() < amount)
 				amount = blocks.size();

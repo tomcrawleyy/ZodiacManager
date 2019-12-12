@@ -11,7 +11,6 @@ import com.zodiacmc.ZodiacManager.AutoRank.Ranking.RankManager;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
 import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
-import com.zodiacmc.ZodiacManager.Utilities.CommandUtil;
 import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
 
 public class SetRemovalDelay extends SubCommand {
@@ -22,8 +21,7 @@ public class SetRemovalDelay extends SubCommand {
 	
 	public boolean processCommand(CommandSender sender, String[] args) {
 		if (((!(sender instanceof Player)) && (args.length != 4)) | (args.length < 3))
-			return CommandUtil.success(sender,
-					command.getPrefix() + " &cUsage: /ChunkManager SetLimit <BlockType> <Rank> <Delay> <TimeUnit>");
+			return this.usage("ChunkManager SetLimit <BlockType> <Rank> <Delay> <TimeUnit>");
 		WorldBlockType blockType = null;
 		String rankString = "";
 		String delayString = "";
@@ -38,7 +36,7 @@ public class SetRemovalDelay extends SubCommand {
 				}
 			}
 			if (blockType == null)
-				return CommandUtil.success(sender, command.getPrefix() + " &cError: The block " + item.getTypeId() + ":" + item.getData().getData() + " has not been configured in this plugin.");
+				return this.error("BlockType: " + item.getTypeId() + ":" + item.getData().getData() + " has not been configured in this plugin.");
 			rankString = args[0];
 			delayString = args[1];
 			timeUnitString = args[2];
@@ -50,20 +48,19 @@ public class SetRemovalDelay extends SubCommand {
 				}
 			}
 			if (blockType == null)
-				return CommandUtil.success(sender, command.getPrefix() + " &cError: The block " + args[0] + " has not been configured in this plugin.");
+				return this.error("BlockType: " + args[0] + " has not been configured in this plugin.");
 			rankString = args[1];
 			delayString = args[2];
 			timeUnitString = args[3];
 		}
 		Rank r = RankManager.getInstance().getRank(rankString);
 		if (r == null)
-			return CommandUtil.success(sender, command.getPrefix() +  " &cError: Rank: " + rankString + " does not exist!");
+			return this.error("Rank: " + rankString + " does not exist!");
 		Integer delay;
 		try {
 			delay = Integer.parseInt(delayString);
 		} catch (NumberFormatException e) {
-			return CommandUtil.success(sender,
-					command.getPrefix() + " &cUsage: /ChunkManager SetLimit <BlockType> <Rank> <NewLimit>");
+			return this.usage("ChunkManager SetLimit <BlockType> <Rank> <NewLimit>");
 		}
 		TimeUnit unit = null;
 		for (TimeUnit localUnit : TimeUnit.values()) {
@@ -73,15 +70,14 @@ public class SetRemovalDelay extends SubCommand {
 			}
 		}
 		if (unit == null)
-			return CommandUtil.success(sender,
-					command.getPrefix() + " &cError: TimeUnits Available: Milliseconds, Seconds, Minutes, Hours");
+			return this.error("TimeUnits Available: Milliseconds, Seconds, Minutes, Hours");
 		WorldBlockConfig config = WorldBlockConfig.getInstance(blockType);
 		if (!config.destroyOnLogout()) {
 			config.setDestroyOnLogout(true);
 			sender.sendMessage(StringUtil.parseColours(command.getPrefix()));
 		}
 		config.setRemovalDelay(r, (long)delay, unit);
-		return CommandUtil.success(sender, command.getPrefix() + " &aRemoval delay for " + blockType.getReadable() + " has been updated for " + r.getName() + " to " + delay + " " + unit.name().toLowerCase() + "'s.");
+		return this.success("Removal delay for " + blockType.getReadable() + " has been updated for " + r.getName() + " to " + delay + " " + unit.name().toLowerCase() + "'s.");
 	}
 	
 	public String permissionRequired() {

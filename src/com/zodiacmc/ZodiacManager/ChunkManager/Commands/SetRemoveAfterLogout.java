@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
 import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
-import com.zodiacmc.ZodiacManager.Utilities.CommandUtil;
 
 public class SetRemoveAfterLogout extends SubCommand {
 
@@ -17,8 +16,7 @@ public class SetRemoveAfterLogout extends SubCommand {
 
 	public boolean processCommand(CommandSender sender, String[] args) {
 		if (((!(sender instanceof Player)) && (args.length != 2)) | (args.length < 1))
-			return CommandUtil.success(sender,
-					command.getPrefix() + " &cUsage: /ChunkManager SetRemoveAfterLogout <BlockType> <Boolean>");
+			return this.usage("ChunkManager SetRemoveAfterLogout <BlockType> <Boolean>");
 		WorldBlockType blockType = null;
 		String booleanString = "";
 		if (args.length == 1) {
@@ -31,7 +29,7 @@ public class SetRemoveAfterLogout extends SubCommand {
 				}
 			}
 			if (blockType == null)
-				return CommandUtil.success(sender, command.getPrefix() + " &cError: The block " + item.getTypeId() + ":"
+				return this.error("The block " + item.getTypeId() + ":"
 						+ item.getData().getData() + " has not been configured in this plugin.");
 			booleanString = args[0];
 		} else {
@@ -42,7 +40,7 @@ public class SetRemoveAfterLogout extends SubCommand {
 				}
 			}
 			if (blockType == null)
-				return CommandUtil.success(sender, command.getPrefix() + " &cError: The block " + args[0]
+				return this.error("The block " + args[0]
 						+ " has not been configured in this plugin.");
 			booleanString = args[1];
 		}
@@ -53,14 +51,13 @@ public class SetRemoveAfterLogout extends SubCommand {
 			localBoolean = true;
 		}
 		if (localBoolean == null)
-			return CommandUtil.success(sender,
-					command.getPrefix() + " &cUsage: /ChunkManager SetRemoveAfterLogout <BlockType> <Boolean>");
+			return this.usage("ChunkManager SetRemoveAfterLogout <BlockType> <Boolean>");
 		WorldBlockConfig config = WorldBlockConfig.getInstance(blockType);
 		config.setDestroyOnLogout(localBoolean);
 		if (localBoolean)
-			return CommandUtil.success(sender, command.getPrefix() + " &aBlockType: " + blockType.getReadable()
+			return this.success("BlockType: " + blockType.getReadable()
 					+ " will now reappear/remove upon its owner logging in/out respectively.");
-		return CommandUtil.success(sender, command.getPrefix() + " &aBlockType: " + blockType.getReadable()
+		return this.success("BlockType: " + blockType.getReadable()
 				+ " will not reappear/remove upon its owner logging in/out.");
 	}
 

@@ -40,6 +40,11 @@ public abstract class SubCommand implements ISubCommand {
 	}
 	
 	public boolean resolve(String message) {
+		this.sender.sendMessage(StringUtil.parseColours(this.command.getPrefix() + " &a" + message));
+		return true;
+	}
+	
+	public boolean success(String message) {
 		this.sender.sendMessage(StringUtil.parseColours(this.command.getPrefix() + " &aSuccess: " + message));
 		return true;
 	}

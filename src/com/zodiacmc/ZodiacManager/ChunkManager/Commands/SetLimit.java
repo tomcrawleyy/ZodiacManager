@@ -9,7 +9,6 @@ import com.zodiacmc.ZodiacManager.AutoRank.Ranking.RankManager;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
 import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
-import com.zodiacmc.ZodiacManager.Utilities.CommandUtil;
 
 public class SetLimit extends SubCommand {
 
@@ -19,8 +18,7 @@ public class SetLimit extends SubCommand {
 
 	public boolean processCommand(CommandSender sender, String[] args) {
 		if (((!(sender instanceof Player)) && (args.length != 3)) | (args.length < 2))
-			return CommandUtil.success(sender,
-					command.getPrefix() + " &cUsage: /ChunkManager SetLimit <BlockType> <Rank> <NewLimit>");
+			return this.usage("ChunkManager SetLimit <BlockType> <Rank> <NewLimit>");
 		WorldBlockType blockType = null;
 		String rankString = "";
 		String newLimitString = "";
@@ -34,7 +32,7 @@ public class SetLimit extends SubCommand {
 				}
 			}
 			if (blockType == null)
-				return CommandUtil.success(sender, command.getPrefix() + " &cError: The block " + item.getTypeId() + ":" + item.getData().getData() + " has not been configured in this plugin.");
+				return this.error("BlockType: " + item.getTypeId() + ":" + item.getData().getData() + " has not been configured in this plugin.");
 			rankString = args[0];
 			newLimitString = args[1];
 		} else {
@@ -45,23 +43,22 @@ public class SetLimit extends SubCommand {
 				}
 			}
 			if (blockType == null)
-				return CommandUtil.success(sender, command.getPrefix() + " &cError: The block " + args[0] + " has not been configured in this plugin.");
+				return this.error("The block " + args[0] + " has not been configured in this plugin.");
 			rankString = args[1];
 			newLimitString = args[2];
 		}
 		Rank r = RankManager.getInstance().getRank(rankString);
 		if (r == null)
-			return CommandUtil.success(sender, command.getPrefix() +  " &cError: Rank: " + rankString + " does not exist!");
+			return this.error("Rank: " + rankString + " does not exist!");
 		Integer limit;
 		try {
 			limit = Integer.parseInt(newLimitString);
 		} catch (NumberFormatException e) {
-			return CommandUtil.success(sender,
-					command.getPrefix() + " &cUsage: /ChunkManager SetLimit <BlockType> <Rank> <NewLimit>");
+			return this.usage("ChunkManager SetLimit <BlockType> <Rank> <NewLimit>");
 		}
 		WorldBlockConfig config = WorldBlockConfig.getInstance(blockType);
 		config.setLimit(r, limit);
-		return CommandUtil.success(sender, command.getPrefix() + " &aLimit for " + blockType.getReadable() + " has been updated for " + r.getName() + " to " + limit + ".");
+		return this.success("Limit for " + blockType.getReadable() + " has been updated for " + r.getName() + " to " + limit + ".");
 	}
 
 	public String permissionRequired() {

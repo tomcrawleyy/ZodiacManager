@@ -10,9 +10,6 @@ import com.zodiacmc.ZodiacManager.Commands.SubCommand;
 import com.zodiacmc.ZodiacManager.Malls.Enums.MallType;
 import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
-import com.zodiacmc.ZodiacManager.Users.User;
-import com.zodiacmc.ZodiacManager.Users.UserManager;
-import com.zodiacmc.ZodiacManager.Utilities.CommandUtil;
 
 public class Warp extends SubCommand {
 
