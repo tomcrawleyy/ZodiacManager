@@ -3,6 +3,8 @@ package com.zodiacmc.ZodiacManager.Cuboids;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import com.zodiacmc.ZodiacManager.Utilities.LocationUtil;
+
 public class Cuboid {
 	
 	private World world;
@@ -13,8 +15,9 @@ public class Cuboid {
 	private int lowerZ;
 	private int upperZ;
 	private boolean ignoreHeight;
+	private CuboidType type;
 	
-	public Cuboid(Location loc1, Location loc2, boolean ignoreHeight) {
+	public Cuboid(Location loc1, Location loc2, boolean ignoreHeight, CuboidType type) {
 		this.upperX = Math.max(loc1.getBlockX(), loc2.getBlockX());
 		this.lowerX = Math.min(loc1.getBlockX(), loc2.getBlockX());
 		this.upperY = ignoreHeight ? 256 : Math.max(loc1.getBlockY(), loc2.getBlockY());
@@ -23,6 +26,11 @@ public class Cuboid {
 		this.lowerZ = Math.min(loc1.getBlockZ(), loc2.getBlockZ());
 		this.world = loc1.getWorld();
 		this.ignoreHeight = ignoreHeight;
+		this.type = type;
+	}
+	
+	public CuboidType getType() {
+		return this.type;
 	}
 	
 	public boolean extendsBuildHeight() {
@@ -76,6 +84,10 @@ public class Cuboid {
 		if (loc.getBlockZ() > this.upperZ | loc.getBlockZ() < this.lowerZ)
 			return false;
 		return true;
+	}
+	
+	public String serialize() {
+		return LocationUtil.toString(getLowerNE()) + "/" + LocationUtil.toString(getUpperSW()) + "/" + this.ignoreHeight;
 	}
 
 }

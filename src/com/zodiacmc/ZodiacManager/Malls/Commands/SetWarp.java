@@ -4,16 +4,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Malls.Enums.MallPermissionType;
-import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
-import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
 
 public class SetWarp extends SubCommand {
 
 	public SetWarp() {
-		super("SetWarp", true, true);
+		super("SetWarp", true);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -45,10 +45,6 @@ public class SetWarp extends SubCommand {
 		}
 		shop.setWarp(player.getLocation());
 		return this.resolve("Shop warp has been successfully updated!");
-	}
-
-	public String permissionRequired() {
-		return "AutoMalls.SetWarp";
 	}
 
 }

@@ -1,12 +1,13 @@
-package com.zodiacmc.ZodiacManager.Malls.Models;
+package com.zodiacmc.ZodiacManager.Malls.Cuboids;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.zodiacmc.ZodiacManager.Cuboids.Cuboid;
+import com.zodiacmc.ZodiacManager.Cuboids.CuboidContainer;
 import com.zodiacmc.ZodiacManager.Malls.Enums.MallType;
 
-public class Mall {
+public class Mall implements CuboidContainer {
 	
 	private static List<Mall> malls = new ArrayList<Mall>();
 	private MallType type;
@@ -48,5 +49,9 @@ public class Mall {
 	public MallType getType()
 	{
 		return type;
+	}
+
+	public void setCuboid(Cuboid cuboid) {
+		this.cuboid = cuboid;
 	}
 }

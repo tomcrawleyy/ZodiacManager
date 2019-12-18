@@ -15,7 +15,7 @@ import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
 public class CheckLimit extends SubCommand {
 
 	public CheckLimit() {
-		super("CheckLimit", false, false);
+		super("CheckLimit", false);
 	}
 
 	@Override
@@ -85,11 +85,6 @@ public class CheckLimit extends SubCommand {
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public String permissionRequired() {
-		return null;
 	}
 
 }

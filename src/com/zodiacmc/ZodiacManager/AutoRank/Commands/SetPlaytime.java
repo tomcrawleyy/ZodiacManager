@@ -14,7 +14,7 @@ import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
 public class SetPlaytime extends SubCommand {
 
 	public SetPlaytime() {
-		super("SetPlaytime", false, true);
+		super("SetPlaytime", false);
 	}
 
 	@Override
@@ -46,11 +46,6 @@ public class SetPlaytime extends SubCommand {
 		User user = UserManager.getInstance().getOnlineUser(player);
 		user.setTimePlayed(unit.toMillis(time));
 		return this.success(user.getName() + "'s Playtime has successfully been set to " + TimeUtil.getReadableTime(user.getTimePlayed(true), TimeUnit.MILLISECONDS, false));
-	}
-
-	@Override
-	public String permissionRequired() {
-		return "AutoRank.SetPlaytime";
 	}
 
 }

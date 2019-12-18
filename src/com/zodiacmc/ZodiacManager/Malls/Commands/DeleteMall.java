@@ -4,12 +4,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
-import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
 
 public class DeleteMall extends SubCommand {
 	
 	public DeleteMall() {
-		super("DeleteMall", false, true);
+		super("DeleteMall", false);
 	}
 	
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -45,9 +45,5 @@ public class DeleteMall extends SubCommand {
 		Mall.getMalls().remove(mall);
 		//TODO Save mall config
 		return this.resolve("Mall has successfully been removed!");
-	}
-
-	public String permissionRequired() {
-		return "AutoMalls.DeleteMall";
 	}
 }

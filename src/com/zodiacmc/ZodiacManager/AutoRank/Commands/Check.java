@@ -15,7 +15,7 @@ import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
 public class Check extends SubCommand {
 	
 	public Check() {
-		super("Check", false, true);
+		super("Check", false);
 	}
 
 	@Override
@@ -55,11 +55,6 @@ public class Check extends SubCommand {
 		} else {
 			return this.usage("AR Check <optional>playerName");
 		}
-	}
-
-	@Override
-	public String permissionRequired() {
-		return "AutoRank.Check";
 	}
 
 }

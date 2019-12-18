@@ -6,9 +6,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Malls.Enums.MallPermissionType;
-import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
-import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
 import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
@@ -16,7 +16,7 @@ import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
 public class Trust extends SubCommand {
 
 	public Trust() {
-		super("Trust", true, true);
+		super("Trust", true);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -64,29 +64,29 @@ public class Trust extends SubCommand {
 			return this.error("You must be standing inside of a shop to perform this command!");
 		if (shop.getOwner() != user) {
 			if (shop.getTrustedUsers().containsKey(user)) {
-				if (permissionType == MallPermissionType.TRUSTOTHERS
-						| permissionType == MallPermissionType.TRUSTOTHERSREFILL
-						| permissionType == MallPermissionType.TRUSTOTHERSRENEW
-						| permissionType == MallPermissionType.TRUSTOTHERSSETWARP
+				if (permissionType == MallPermissionType.MANAGEMENT
+						| permissionType == MallPermissionType.REFILLMANAGEMENT
+						| permissionType == MallPermissionType.RENEWMANAGEMENT
+						| permissionType == MallPermissionType.WARPMANAGEMENT
 						| permissionType == MallPermissionType.ALL)
 					return this.error("Only the shop owner can allocate this permission!");
 				List<MallPermissionType> userPermissions = shop.getTrusteesPermissions(user);
 				boolean trust = false;
 				switch (permissionType) {
 				case REFILL:
-					if (userPermissions.contains(MallPermissionType.TRUSTOTHERSREFILL))
+					if (userPermissions.contains(MallPermissionType.REFILLMANAGEMENT))
 						trust = true;
 					break;
 				case RENEW:
-					if (userPermissions.contains(MallPermissionType.TRUSTOTHERSRENEW))
+					if (userPermissions.contains(MallPermissionType.RENEWMANAGEMENT))
 						trust = true;
 					break;
 				case SETWARP:
-					if (userPermissions.contains(MallPermissionType.TRUSTOTHERSSETWARP))
+					if (userPermissions.contains(MallPermissionType.WARPMANAGEMENT))
 						trust = true;
 					break;
 				default:
-					if (userPermissions.contains(MallPermissionType.TRUSTOTHERS))
+					if (userPermissions.contains(MallPermissionType.MANAGEMENT))
 						trust = true;
 					break;
 				}
@@ -102,10 +102,6 @@ public class Trust extends SubCommand {
 			return this.error(targetUser.getName() + " is already trusted with that permission!");
 		shop.getTrusteesPermissions(targetUser).add(permissionType);
 		return this.resolve("Player " + targetUser.getName() + " has been successfully trusted to " + permissionType.getDescription());
-	}
-
-	public String permissionRequired() {
-		return "AutoMalls.Trust";
 	}
 
 }

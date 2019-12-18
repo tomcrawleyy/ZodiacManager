@@ -8,7 +8,7 @@ import com.zodiacmc.ZodiacManager.ServerRestarter.Scheduling.RestartScheduler;
 public class Restart extends SubCommand {
 	
 	public Restart() {
-		super("Restart", false, true);
+		super("Restart", false);
 	}
 
 	@Override

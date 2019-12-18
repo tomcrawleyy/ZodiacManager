@@ -14,7 +14,7 @@ import com.zodiacmc.ZodiacManager.Users.UserManager;
 public class SetRank extends SubCommand {
 
 	public SetRank() {
-		super("SetRank", false, true);
+		super("SetRank", false);
 	}
 
 	@Override
@@ -36,11 +36,6 @@ public class SetRank extends SubCommand {
 		Rank userRank = user.getRank();
 		RankUpdater.getInstance().processRankUp(user, rank);
 		return this.success("Rankup for " + user.getName() + " from " + userRank.getName() + " to rank " + rank.getName() + " processed successfully!");
-	}
-
-	@Override
-	public String permissionRequired() {
-		return "AutoRank.SetRank";
 	}
 
 }

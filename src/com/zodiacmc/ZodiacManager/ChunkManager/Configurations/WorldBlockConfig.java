@@ -1,7 +1,6 @@
 package com.zodiacmc.ZodiacManager.ChunkManager.Configurations;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +17,7 @@ import com.zodiacmc.ZodiacManager.AutoRank.Ranking.RankManager;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlock;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
 import com.zodiacmc.ZodiacManager.Configurations.ConfigType;
+import com.zodiacmc.ZodiacManager.Configurations.FileManager;
 import com.zodiacmc.ZodiacManager.Configurations.IConfiguration;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
@@ -26,6 +26,7 @@ import com.zodiacmc.ZodiacManager.Utilities.LocationUtil;
 
 public class WorldBlockConfig implements IConfiguration {
 
+	private FileManager fm = FileManager.getInstance();
 	private FileConfiguration config;
 	private File file;
 	private Boolean destroyOnLogout;
@@ -128,11 +129,7 @@ public class WorldBlockConfig implements IConfiguration {
 
 	@Override
 	public void saveConfig() {
-		try {
-			config.save(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		fm.saveConfig(this);
 	}
 
 	public boolean destroyOnLogout() {

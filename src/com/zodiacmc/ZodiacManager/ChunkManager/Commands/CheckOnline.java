@@ -13,7 +13,7 @@ import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
 public class CheckOnline extends SubCommand {
 
 	public CheckOnline() {
-		super("CheckOnline", false, true);
+		super("CheckOnline", false);
 	}
 
 	@Override
@@ -58,11 +58,6 @@ public class CheckOnline extends SubCommand {
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public String permissionRequired() {
-		return "ChunkManager.CheckOnline";
 	}
 
 }

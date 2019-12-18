@@ -9,13 +9,15 @@ import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.AutoRank.Ranking.RankType;
 import com.zodiacmc.ZodiacManager.Cuboids.CuboidFactory;
+import com.zodiacmc.ZodiacManager.Cuboids.CuboidFactoryManager;
 import com.zodiacmc.ZodiacManager.Malls.Commands.IgnoreProtection;
-import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
-import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 
 public class UserManager {
 
 	private static UserManager instance;
+	private CuboidFactoryManager cuboidFactoryManager = CuboidFactoryManager.getInstance();
 	private Map<String, User> onlineUsers;
 	private List<User> onlineUserList;
 	private List<User> onlineStaffList;
@@ -80,8 +82,8 @@ public class UserManager {
 		u.updateData();
 		u.handleWorldBlocks();
 		onlineUserList.remove(u);
-		if (CuboidFactory.isInSetupMode(u)) {
-			CuboidFactory.removeUser(u);
+		if (cuboidFactoryManager.isInSetupMode(u)) {
+			cuboidFactoryManager.removeUser(u);
 		}
 	}
 

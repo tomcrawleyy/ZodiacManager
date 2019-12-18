@@ -1,7 +1,7 @@
 package com.zodiacmc.ZodiacManager.Cuboids;
 
 public enum CuboidType {
-	MALL(true), SHOP(false);
+	MALL(true), SHOP(false), REDEFINE(false);
 	
 	private boolean ignoreY;
 	private String cuboidName;

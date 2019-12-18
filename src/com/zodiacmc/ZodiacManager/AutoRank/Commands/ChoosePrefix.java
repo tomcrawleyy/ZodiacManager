@@ -16,7 +16,7 @@ public class ChoosePrefix extends SubCommand {
 	List<String> prefixes;
 	
 	public ChoosePrefix() {
-		super("ChoosePrefix", true, true);
+		super("ChoosePrefix", true);
 		prefixes = ChoosePrefixConfig.getInstance().getAvailablePrefixes();
 	}
 
@@ -47,10 +47,4 @@ public class ChoosePrefix extends SubCommand {
 		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "manuaddv " + player.getName() + " prefix " + prefixes.get(value));
 		return this.success("Prefix has been successfully updated to: " + prefixes.get(value));
 	}
-
-	@Override
-	public String permissionRequired() {
-		return "AutoRank.ChooseRank";
-	}
-
 }

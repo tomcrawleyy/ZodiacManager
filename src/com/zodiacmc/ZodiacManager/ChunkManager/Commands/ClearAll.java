@@ -11,7 +11,7 @@ import com.zodiacmc.ZodiacManager.Commands.SubCommand;
 public class ClearAll extends SubCommand {
 	
 	public ClearAll() {
-		super("ClearAll", false, true);
+		super("ClearAll", false);
 	}
 	
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -40,9 +40,4 @@ public class ClearAll extends SubCommand {
 		}
 		return this.success("A total of " + blocksDestroyed + " have been removed from the world!");
 	}
-	
-	public String permissionRequired() {
-		return "ChunkManager.ClearAll";
-	}
-
 }

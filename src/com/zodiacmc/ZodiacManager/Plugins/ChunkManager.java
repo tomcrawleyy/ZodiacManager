@@ -36,5 +36,4 @@ public class ChunkManager implements IPlugin {
 	public BaseCommand getBaseCommand() {
 		return baseCommand;
 	}
-
 }

@@ -16,7 +16,7 @@ import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
 public class SetRemovalDelay extends SubCommand {
 	
 	public SetRemovalDelay() {
-		super("SetRemovalDelay", false, true);
+		super("SetRemovalDelay", false);
 	}
 	
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -78,10 +78,6 @@ public class SetRemovalDelay extends SubCommand {
 		}
 		config.setRemovalDelay(r, (long)delay, unit);
 		return this.success("Removal delay for " + blockType.getReadable() + " has been updated for " + r.getName() + " to " + delay + " " + unit.name().toLowerCase() + "'s.");
-	}
-	
-	public String permissionRequired() {
-		return "ChunkManager.SetRemovalDelay";
 	}
 
 }

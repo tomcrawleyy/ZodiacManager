@@ -7,16 +7,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Malls.Enums.MallType;
-import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
-import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
 
 public class Home extends SubCommand {
 
 	public Home() {
-		super("Home", true, true);
+		super("Home", true);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -62,14 +62,10 @@ public class Home extends SubCommand {
 			if (shop.getMall().getType() == type) {
 				Player p = (Player)sender;
 				p.teleport(shop.getCuboid().getCenter());
-				return this.resolve("You have been successfully teleported to you shop!");
+				return this.resolve("You have been successfully teleported to your shop!");
 			}
 		}
 		return this.error("You do not own a shop in the mall you specified!");
-	}
-
-	public String permissionRequired() {
-		return "AutoMalls.Home";
 	}
 
 }

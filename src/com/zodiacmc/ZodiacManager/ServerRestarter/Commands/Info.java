@@ -8,7 +8,7 @@ import com.zodiacmc.ZodiacManager.ServerRestarter.Scheduling.RestartScheduler;
 public class Info extends SubCommand {
 
 	public Info() {
-		super("Info", false, false);
+		super("Info", false);
 	}
 
 	@Override

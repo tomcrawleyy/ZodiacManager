@@ -13,7 +13,7 @@ import com.zodiacmc.ZodiacManager.Plugins.MinimumPrices;
 public class SetPrice extends SubCommand {
 
 	public SetPrice() {
-		super("SetPrice", false, false);
+		super("SetPrice", false);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -71,10 +71,6 @@ public class SetPrice extends SubCommand {
 		}
 		return this.success("The minimum price for " + worldItem.getId() + ":"
 				+ worldItem.getData() + " has been set to: " + price + ".");
-	}
-
-	public String permissionRequired() {
-		return "MinimumPrices.SetPrice";
 	}
 
 }

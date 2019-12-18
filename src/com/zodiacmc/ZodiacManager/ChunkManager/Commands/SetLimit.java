@@ -13,7 +13,7 @@ import com.zodiacmc.ZodiacManager.Commands.SubCommand;
 public class SetLimit extends SubCommand {
 
 	public SetLimit() {
-		super("SetLimit", false, true);
+		super("SetLimit", false);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -59,10 +59,6 @@ public class SetLimit extends SubCommand {
 		WorldBlockConfig config = WorldBlockConfig.getInstance(blockType);
 		config.setLimit(r, limit);
 		return this.success("Limit for " + blockType.getReadable() + " has been updated for " + r.getName() + " to " + limit + ".");
-	}
-
-	public String permissionRequired() {
-		return "ChunkManager.SetLimit";
 	}
 
 }

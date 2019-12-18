@@ -12,7 +12,7 @@ import com.zodiacmc.ZodiacManager.Users.UserManager;
 public class Demote extends SubCommand {
 	
 	public Demote() {
-		super("Demote", false, true);
+		super("Demote", false);
 	}
 
 	@Override
@@ -34,11 +34,6 @@ public class Demote extends SubCommand {
 			return this.success("Demotion for " + user.getName() + " from " + rank.getName() + "to rank " + rank.getPreviousRank().getName() + " processed successfully!");
 		}
 		return this.error("Player does not have a rankup available!");
-	}
-
-	@Override
-	public String permissionRequired() {
-		return "AutoRank.Demote";
 	}
 	
 	

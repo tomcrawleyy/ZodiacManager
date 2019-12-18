@@ -24,7 +24,7 @@ import com.zodiacmc.ZodiacManager.AutoRank.Ranking.RankUpdater;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlock;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
 import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
-import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTask;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTaskException;
 import com.zodiacmc.ZodiacManager.Utilities.LocationUtil;

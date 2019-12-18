@@ -14,7 +14,7 @@ public class IgnoreProtection extends SubCommand {
 	private static List<User> ignoredUsers = new ArrayList<User>();
 	
 	public IgnoreProtection() {
-		super("IgnoreProtection", true, true);
+		super("IgnoreProtection", true);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -45,10 +45,6 @@ public class IgnoreProtection extends SubCommand {
 	
 	public static List<User> getUsersIgnoringProtection(){
 		return ignoredUsers;
-	}
-	
-	public String permissionRequired() {
-		return "AutoMalls.IgnoreProtection";
 	}
 
 }

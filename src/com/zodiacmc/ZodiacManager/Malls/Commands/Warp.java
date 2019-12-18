@@ -7,14 +7,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Malls.Enums.MallType;
-import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
-import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
 
 public class Warp extends SubCommand {
 
 	public Warp() {
-		super("Warp", true, true);
+		super("Warp", true);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -77,10 +77,6 @@ public class Warp extends SubCommand {
 		player.teleport(shop.getWarp());
 		return this.resolve("You have been successfully teleported to " + shop.getOwner().getName()
 						+ "'s shop in the " + shop.getMall().getType().getReadableName() + " mall.");
-	}
-
-	public String permissionRequired() {
-		return "AutoMalls.Warp";
 	}
 
 }

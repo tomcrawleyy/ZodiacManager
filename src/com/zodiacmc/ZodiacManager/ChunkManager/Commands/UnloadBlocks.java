@@ -13,7 +13,7 @@ import com.zodiacmc.ZodiacManager.Users.User;
 public class UnloadBlocks extends SubCommand {
 
 	public UnloadBlocks() {
-		super("UnloadBlocks", false, true);
+		super("UnloadBlocks", false);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -57,10 +57,6 @@ public class UnloadBlocks extends SubCommand {
 			}
 		}
 		return this.success(count + " " + block.name() + " blocks successfully unloaded!");
-	}
-
-	public String permissionRequired() {
-		return "ChunkManager.UnloadBlocks";
 	}
 
 }

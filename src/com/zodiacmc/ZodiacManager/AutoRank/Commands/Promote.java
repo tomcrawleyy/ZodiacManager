@@ -13,7 +13,7 @@ import com.zodiacmc.ZodiacManager.Users.UserManager;
 public class Promote extends SubCommand {
 	
 	public Promote() {
-		super("Promote", false, true);
+		super("Promote", false);
 	}
 	
 	@Override
@@ -35,10 +35,6 @@ public class Promote extends SubCommand {
 			return this.success("Player promotion for " + user.getName() + " from " + rank.getName() + " to rank " + rank.getNextRank().getName() + " processed successfully!");
 		}
 		return this.error("Player does not have a rankup available!");
-	}
-	
-	public String permissionRequired() {
-		return "AutoRank.Promote";
 	}
 
 }

@@ -17,7 +17,7 @@ import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
 public class CheckRemovalDelay extends SubCommand {
 
 	public CheckRemovalDelay() {
-		super("CheckRemovalDelay", false, false);
+		super("CheckRemovalDelay", false);
 	}
 
 	@Override
@@ -74,10 +74,5 @@ public class CheckRemovalDelay extends SubCommand {
 		if (args.length == 2)
 			return this.resolve("BlockType: " + args[0] + " for Rank: " + args[1] + " Will remove " + time + " after Logout.");
 		return this.resolve("BlockType:" + type.name() + " Will remove " + time + " after logout.");
-	}
-
-	@Override
-	public String permissionRequired() {
-		return null;
 	}
 }

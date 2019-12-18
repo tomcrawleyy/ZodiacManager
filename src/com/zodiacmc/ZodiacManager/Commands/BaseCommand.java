@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.zodiacmc.ZodiacManager.ZodiacManager;
 import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
 import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
 
@@ -19,6 +20,7 @@ public class BaseCommand implements CommandExecutor {
 	private String prefix;
 	public List<ISubCommand> subCommands;
 	private static Map<String, BaseCommand> commands = new HashMap<String, BaseCommand>();
+	private ZodiacManager zodiacManager = ZodiacManager.getInstance();
 
 	public BaseCommand(String name, String prefix) {
 		this.prefix = prefix;
@@ -29,6 +31,10 @@ public class BaseCommand implements CommandExecutor {
 		commands.put(name, this);
 		subCommands = new ArrayList<ISubCommand>();
 		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public String getPrefix() {
@@ -43,6 +49,10 @@ public class BaseCommand implements CommandExecutor {
 		command.setBaseCommand(this);
 		subCommands.add(command);
 	}
+	
+	public String getFilePath() {
+		return zodiacManager.getDataFolder() + "/" + name + "/";
+	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -54,12 +64,10 @@ public class BaseCommand implements CommandExecutor {
 					if (subCommand.isPlayerOnly() && (!(sender instanceof Player))) {
 						continue;
 					}
-					if (subCommand.hasPermission()) {
-						if (sender instanceof Player) {
-							Player player = (Player) sender;
-							if (!player.hasPermission(subCommand.permissionRequired())) {
-								continue;
-							}
+					if (sender instanceof Player) {
+						Player player = (Player) sender;
+						if (!player.hasPermission(subCommand.permissionRequired())) {
+							continue;
 						}
 					}
 					String[] newArgs = new String[args.length - 1];
@@ -73,12 +81,10 @@ public class BaseCommand implements CommandExecutor {
 		for (ISubCommand subCommand : subCommands) {
 			if (subCommand.isPlayerOnly() && (!(sender instanceof Player)))
 				continue;
-			if (subCommand.hasPermission()) {
-				if (sender instanceof Player) {
-					Player player = (Player) sender;
-					if (!player.hasPermission(subCommand.permissionRequired())) {
-						continue;
-					}
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				if (!player.hasPermission(subCommand.permissionRequired())) {
+					continue;
 				}
 			}
 			sender.sendMessage(StringUtil.parseColours(prefix + " /" + name + " " + subCommand.name()));

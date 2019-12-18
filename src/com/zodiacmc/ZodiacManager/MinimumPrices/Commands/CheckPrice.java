@@ -14,7 +14,7 @@ import com.zodiacmc.ZodiacManager.Plugins.MinimumPrices;
 public class CheckPrice extends SubCommand {
 
 	public CheckPrice() {
-		super("CheckPrice", false, false);
+		super("CheckPrice", false);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -53,10 +53,6 @@ public class CheckPrice extends SubCommand {
 			}
 		}
 		return true;
-	}
-
-	public String permissionRequired() {
-		return "MinimumPrices.CheckPrice";
 	}
 
 }

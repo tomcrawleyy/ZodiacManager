@@ -11,7 +11,7 @@ import com.zodiacmc.ZodiacManager.Commands.SubCommand;
 public class SetRemoveAfterLogout extends SubCommand {
 
 	public SetRemoveAfterLogout() {
-		super("SetRemoveAfterLogout", false, true);
+		super("SetRemoveAfterLogout", false);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -59,10 +59,6 @@ public class SetRemoveAfterLogout extends SubCommand {
 					+ " will now reappear/remove upon its owner logging in/out respectively.");
 		return this.success("BlockType: " + blockType.getReadable()
 				+ " will not reappear/remove upon its owner logging in/out.");
-	}
-
-	public String permissionRequired() {
-		return "ChunkManager.SetRemoveAfterLogout";
 	}
 
 }

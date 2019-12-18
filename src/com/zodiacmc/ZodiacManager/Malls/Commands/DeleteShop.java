@@ -4,13 +4,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
-import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
-import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 
 public class DeleteShop extends SubCommand {
 	
 	public DeleteShop() {
-		super("DeleteShop", true, true);
+		super("DeleteShop", true);
 	}
 	
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -44,10 +44,6 @@ public class DeleteShop extends SubCommand {
 		}
 		//TODO save mall config
 		return this.resolve("&aThe shop you are standing in has now been removed from the mall.");
-	}
-	
-	public String permissionRequired() {
-		return "AutoMalls.DeleteShop";
 	}
 
 }

@@ -11,7 +11,7 @@ public abstract class SubCommand implements ISubCommand {
 	protected boolean isPlayerOnly, hasPermission;
 	protected CommandSender sender;
 	
-	public SubCommand(String name, boolean isPlayerOnly, boolean hasPermission) {
+	public SubCommand(String name, boolean isPlayerOnly) {
 		this.name = name;
 	}
 	
@@ -27,8 +27,8 @@ public abstract class SubCommand implements ISubCommand {
 		return command;
 	}
 	
-	public boolean hasPermission() {
-		return hasPermission;
+	public String permissionRequired(){
+		return command.getName() + "." + name;
 	}
 	
 	public boolean isPlayerOnly() {

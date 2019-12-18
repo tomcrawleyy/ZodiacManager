@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.command.CommandSender;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
-import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
-import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
 import com.zodiacmc.ZodiacManager.Utilities.LocationUtil;
@@ -17,7 +17,7 @@ import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
 public class CheckTime extends SubCommand {
 
 	public CheckTime() {
-		super("CheckTime", true, true);
+		super("CheckTime", true);
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
@@ -38,10 +38,6 @@ public class CheckTime extends SubCommand {
 					+ TimeUtil.getReadableTime(shop.getTimeLeft(), TimeUnit.MILLISECONDS, false));
 		}
 		return true;
-	}
-
-	public String permissionRequired() {
-		return "AutoMalls.CheckTime";
 	}
 
 }

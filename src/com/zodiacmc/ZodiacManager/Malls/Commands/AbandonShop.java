@@ -4,17 +4,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
-import com.zodiacmc.ZodiacManager.Malls.Models.Mall;
-import com.zodiacmc.ZodiacManager.Malls.Models.Shop;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
+import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
 
 public class AbandonShop extends SubCommand {
-	
+
 	public AbandonShop() {
-		super("AbandonShop", true, true);
+		super("AbandonShop", true);
 	}
-	
+
 	public boolean processCommand(CommandSender sender, String[] args) {
 		User user = UserManager.getInstance().getOnlineUser(sender.getName());
 		Player player = (Player) sender;
@@ -33,8 +33,10 @@ public class AbandonShop extends SubCommand {
 				return this.error("You must either specify a mall or stand in the shop you wish to abandon.");
 			for (Shop localShop : mall.getShops()) {
 				if (localShop.getCuboid().isInCuboid(player.getLocation())) {
-					shop = localShop;
-					break;
+					if (localShop.getOwner() == user || IgnoreProtection.getUsersIgnoringProtection().contains(user)) {
+						shop = localShop;
+						break;
+					}
 				}
 			}
 		} else {
@@ -52,14 +54,11 @@ public class AbandonShop extends SubCommand {
 					break;
 				}
 			}
-			if (shop == null)
-				return this.error("You do not own a shop in the " + mall.getType().getReadableName() + " mall!");
 		}
-		return this.resolve("");
-	}
-	
-	public String permissionRequired() {
-		return "AutoMalls.AbandonShop";
+		if (shop == null)
+			return this.error("You do not own a shop in the " + mall.getType().getReadableName() + " mall!");
+		shop.reset();
+		return this.success("Shop has successfully been abandoned!");
 	}
 
 }
