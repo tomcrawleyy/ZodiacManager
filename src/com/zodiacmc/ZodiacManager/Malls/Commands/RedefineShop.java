@@ -23,7 +23,7 @@ public class RedefineShop extends SubCommand {
 		Shop shop = null;
 		Mall mall = null;
 		if (cuboidFactoryManager.isInSetupMode(u))
-			return this.error("You are already in setup mode!");
+			return this.error("You are already in setup mode! Please finish any other cuboid creations before this or type /AutoMalls ExitSetupMode");
 		for (Mall localMall : Mall.getMalls()) {
 			if (localMall.getCuboid().isInCuboid(p.getLocation())) {
 				mall = localMall;

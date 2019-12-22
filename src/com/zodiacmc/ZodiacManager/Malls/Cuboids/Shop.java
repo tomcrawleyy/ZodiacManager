@@ -7,8 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Location;
 
+import com.zodiacmc.ZodiacManager.Configurations.ConfigType;
+import com.zodiacmc.ZodiacManager.Configurations.FileManager;
 import com.zodiacmc.ZodiacManager.Cuboids.Cuboid;
 import com.zodiacmc.ZodiacManager.Cuboids.CuboidContainer;
+import com.zodiacmc.ZodiacManager.Malls.Configurations.MallConfig;
 import com.zodiacmc.ZodiacManager.Malls.Enums.MallPermissionType;
 import com.zodiacmc.ZodiacManager.Users.User;
 
@@ -21,6 +24,7 @@ public class Shop implements CuboidContainer {
 	private long timeLeft;
 	private Location warp;
 	private Map<User, List<MallPermissionType>> trustedUsers;
+	private static FileManager fm = FileManager.getInstance();
 
 	public Shop(Mall mall, Cuboid cuboid, int price) {
 		this.mall = mall;
@@ -129,6 +133,11 @@ public class Shop implements CuboidContainer {
 		this.trustedUsers.clear();
 		this.user = null;
 		//TODO Remove all blocks from shop
+	}
+	
+	public void saveConfig() {
+		MallConfig mallConfig = (MallConfig)fm.getConfig(ConfigType.MALL);
+		mallConfig.saveShop(this);
 	}
 
 }

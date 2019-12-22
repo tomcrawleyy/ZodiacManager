@@ -23,6 +23,10 @@ public class CuboidRedefinerFactory extends CuboidFactory {
 		return container;
 	}
 	
+	public boolean shouldIngoreY() {
+		return ignoreY;
+	}
+	
 	@Override
 	public Cuboid setLocation2(Location loc) {
 		return new Cuboid(this.getLocation1(), loc, this.ignoreY, CuboidType.REDEFINE);

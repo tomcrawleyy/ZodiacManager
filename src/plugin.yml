@@ -4,9 +4,10 @@ version: 1.0
 description: Plugin manager for Zodiac
 main: com.zodiacmc.ZodiacManager.ZodiacManager
 commands:
-  market:
+  automalls:
     description: Customized version of automall for ZodiacMC
-    usage: /market
+    usage: /automalls
+    aliases: [mall, malls]
   serverrestarter:
     description: Custom server restarter plugin for ZodiacMC
     usage: /serverrestarter

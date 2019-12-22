@@ -11,10 +11,12 @@ import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
 import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
 import com.zodiacmc.ZodiacManager.Configurations.Config;
 import com.zodiacmc.ZodiacManager.Configurations.FileManager;
+import com.zodiacmc.ZodiacManager.Listeners.PlayerJoinListener;
+import com.zodiacmc.ZodiacManager.Malls.Configurations.MallConfig;
 import com.zodiacmc.ZodiacManager.MinimumPrices.Configurations.MinimumPriceConfig;
+import com.zodiacmc.ZodiacManager.Plugins.AutoMalls;
 import com.zodiacmc.ZodiacManager.Plugins.AutoRank;
 import com.zodiacmc.ZodiacManager.Plugins.ChunkManager;
-import com.zodiacmc.ZodiacManager.Plugins.Malls;
 import com.zodiacmc.ZodiacManager.Plugins.MinimumPrices;
 import com.zodiacmc.ZodiacManager.Plugins.ServerRestarter;
 import com.zodiacmc.ZodiacManager.ServerRestarter.Configurations.RestartConfig;
@@ -37,7 +39,7 @@ public class ZodiacManager extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Events.PlayerQuit(), this);
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Patches.NetherRTP(), this);
 		
-		getCommand("market").setExecutor(Malls.getInstance().getBaseCommand());
+		getCommand("market").setExecutor(AutoMalls.getInstance().getBaseCommand());
 		
 		fm.loadFile(new RestartConfig());
 		getCommand("serverrestarter").setExecutor(ServerRestarter.getInstance().getBaseCommand());
@@ -59,6 +61,16 @@ public class ZodiacManager extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.MinimumPrices.Events.BlockBreak(), this);
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.MinimumPrices.Events.BlockPlace(), this);
 		getCommand("minimumprices").setExecutor(MinimumPrices.getInstance().getBaseCommand());
+		
+		fm.loadFile(MallConfig.getInstance());
+		Bukkit.getPluginManager().registerEvents(com.zodiacmc.ZodiacManager.Cuboids.CuboidFactoryManager.getInstance(), this);
+		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.BlockBreak(), this);
+		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.BlockPlace(), this);
+		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.CreatureSpawn(), this);
+		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.PlayerMove(), this);
+		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.PlayerTeleport(), this);
+		PlayerJoinListener.getInstance().addListener(new com.zodiacmc.ZodiacManager.Malls.Events.PlayerJoin());
+		getCommand("automalls").setExecutor(AutoMalls.getInstance().getBaseCommand());
 	}
 	
 	public void onDisable() {

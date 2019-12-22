@@ -1,10 +1,7 @@
 package com.zodiacmc.ZodiacManager.Malls.Cuboids.Factories;
 
-import org.bukkit.Location;
-
 import com.zodiacmc.ZodiacManager.Cuboids.CuboidFactory;
 import com.zodiacmc.ZodiacManager.Cuboids.CuboidType;
-import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Enums.MallType;
 import com.zodiacmc.ZodiacManager.Users.User;
 

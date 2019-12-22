@@ -29,7 +29,7 @@ public class AddShop extends SubCommand {
 			return this.usage("AutoMalls AddShop <Price>");
 		}
 		if (cuboidFactoryManager.isInSetupMode(u))
-			return this.error("You are already in setupmode, please finish any other cuboid creations before attempting this!");
+			return this.error("You are already in setupmode, please finish any other cuboid creations before attempting this or type /AutoMalls ExitSetupMode");
 
 		for (Mall mall : Mall.getMalls()) {
 			if (mall.getCuboid().isInCuboid(player.getLocation())) {

@@ -4,5 +4,6 @@ public interface CuboidContainer {
 
 	void setCuboid(Cuboid cuboid);
 	Cuboid getCuboid();
+	void saveConfig();
 	
 }

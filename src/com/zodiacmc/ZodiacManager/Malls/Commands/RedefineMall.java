@@ -22,7 +22,7 @@ public class RedefineMall extends SubCommand {
 		User u = UserManager.getInstance().getOnlineUser(sender.getName());
 		Mall mall = null;
 		if (cuboidFactoryManager.isInSetupMode(u))
-			return this.error("You are already in setup mode!");
+			return this.error("You are already in setup mode! Please finish any other cuboid creations before this or type /AutoMalls ExitSetupMode");
 		if (args.length == 0) {
 			for (Mall localMall : Mall.getMalls()) {
 				if (localMall.getCuboid().isInCuboid(p.getLocation())) {

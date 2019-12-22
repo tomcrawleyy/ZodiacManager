@@ -8,7 +8,6 @@ import java.util.Map;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.AutoRank.Ranking.RankType;
-import com.zodiacmc.ZodiacManager.Cuboids.CuboidFactory;
 import com.zodiacmc.ZodiacManager.Cuboids.CuboidFactoryManager;
 import com.zodiacmc.ZodiacManager.Malls.Commands.IgnoreProtection;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;

@@ -10,9 +10,9 @@ import com.zodiacmc.ZodiacManager.Malls.Cuboids.Factories.MallFactory;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
 
-public class AddMall extends SubCommand {
+public class SetMall extends SubCommand {
 
-	public AddMall() {
+	public SetMall() {
 		super("SetMall", true);
 	}
 
@@ -20,8 +20,7 @@ public class AddMall extends SubCommand {
 		CuboidFactoryManager cuboidFactoryManager = CuboidFactoryManager.getInstance();
 		User u = UserManager.getInstance().getOnlineUser((Player) sender);
 		if (cuboidFactoryManager.isInSetupMode(u))
-			return this.error(
-					"You are already in setupmode, please finish any other cuboid creations before attempting this!");
+			return this.error("You are already in setup mode! Please finish any other cuboid creations before this or type /AutoMalls ExitSetupMode");
 		if (args.length != 1 | (!args[0].equalsIgnoreCase("default") && !args[0].equalsIgnoreCase("donor"))) {
 			return this.usage("AutoMalls SetMall <Default|Donor>");
 		}
