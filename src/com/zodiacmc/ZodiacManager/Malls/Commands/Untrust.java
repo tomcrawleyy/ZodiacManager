@@ -67,7 +67,7 @@ public class Untrust extends SubCommand {
 			if (u != shop.getOwner()) {
 				switch (type) {
 				case MANAGEMENT:
-				case REFILLMANAGEMENT:
+//				case REFILLMANAGEMENT:
 				case RENEWMANAGEMENT:
 				case WARPMANAGEMENT:
 				case ALL:
@@ -75,10 +75,10 @@ public class Untrust extends SubCommand {
 					if (!shop.getTrusteesPermissions(u).contains(MallPermissionType.MANAGEMENT))
 						return this.error("You do not have the required permission to manage others' build permissions!");
 					break;
-				case REFILL:
-					if (!shop.getTrusteesPermissions(u).contains(MallPermissionType.REFILLMANAGEMENT))
-						return this.error("You do not have the required permission to manage others' refill permissions!");
-					break;
+//				case REFILL:
+//					if (!shop.getTrusteesPermissions(u).contains(MallPermissionType.REFILLMANAGEMENT))
+//						return this.error("You do not have the required permission to manage others' refill permissions!");
+//					break;
 				case RENEW:
 					if (!shop.getTrusteesPermissions(u).contains(MallPermissionType.RENEWMANAGEMENT))
 						return this.error("You do not have the required permission to manage others' renew permissions!");
@@ -92,10 +92,13 @@ public class Untrust extends SubCommand {
 				}
 			}
 			shop.getTrustedUsers().get(targetUser).remove(type);
+			shop.saveConfig();
 			return this.success(targetUser.getName() + " has had the permission " + type.getReadableName()
 					+ " successfully revoked!");
 		}
-		return this.success("");
+		shop.getTrustedUsers().remove(targetUser);
+		shop.saveConfig();
+		return this.success(targetUser.getName() + " has been successfully untrusted!");
 	}
 
 }

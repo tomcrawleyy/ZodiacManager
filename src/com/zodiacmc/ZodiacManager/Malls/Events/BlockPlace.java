@@ -35,15 +35,14 @@ public class BlockPlace implements Listener {
 				break;
 			}
 		}
+		if (IgnoreProtection.getUsersIgnoringProtection().contains(u))
+			return;
 		if (shop == null) {
-			if (IgnoreProtection.getUsersIgnoringProtection().contains(u))
-				return;
 			u.sendMessage("&cError: You do not have the required permissions to build here.");
 			e.setCancelled(true);
+			return;
 		}
 		if (shop.getOwner() == u)
-			return;
-		if (IgnoreProtection.getUsersIgnoringProtection().contains(u))
 			return;
 		if (shop.getTrustedUsers().containsKey(u) && shop.getTrusteesPermissions(u).contains(MallPermissionType.BUILD))
 			return;

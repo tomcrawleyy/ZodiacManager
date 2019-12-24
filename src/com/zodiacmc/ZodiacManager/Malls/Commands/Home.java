@@ -34,7 +34,7 @@ public class Home extends SubCommand {
 			}
 			if (ownedShops.size() == 1) {
 				Player p = (Player) sender;
-				p.teleport(ownedShops.get(0).getCuboid().getCenter());
+				p.teleport(ownedShops.get(0).getWarp());
 				return this.resolve("You have been successfully teleported to you shop!");
 			}
 			if (ownedShops.size() == 2) {
@@ -61,7 +61,7 @@ public class Home extends SubCommand {
 		for (Shop shop : ownedShops) {
 			if (shop.getMall().getType() == type) {
 				Player p = (Player)sender;
-				p.teleport(shop.getCuboid().getCenter());
+				p.teleport(shop.getWarp());
 				return this.resolve("You have been successfully teleported to your shop!");
 			}
 		}

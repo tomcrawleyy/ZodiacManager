@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.zodiacmc.ZodiacManager.AutoRank.Configurations.ChoosePrefixConfig;
 import com.zodiacmc.ZodiacManager.AutoRank.Configurations.OldPlaytimeConfig;
 import com.zodiacmc.ZodiacManager.AutoRank.Configurations.RankConfig;
+import com.zodiacmc.ZodiacManager.AutoRank.Scheduling.PlaytimeUpdater;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlock;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
 import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
@@ -13,6 +14,7 @@ import com.zodiacmc.ZodiacManager.Configurations.Config;
 import com.zodiacmc.ZodiacManager.Configurations.FileManager;
 import com.zodiacmc.ZodiacManager.Listeners.PlayerJoinListener;
 import com.zodiacmc.ZodiacManager.Malls.Configurations.MallConfig;
+import com.zodiacmc.ZodiacManager.Malls.Scheduling.ShopUpdater;
 import com.zodiacmc.ZodiacManager.MinimumPrices.Configurations.MinimumPriceConfig;
 import com.zodiacmc.ZodiacManager.Plugins.AutoMalls;
 import com.zodiacmc.ZodiacManager.Plugins.AutoRank;
@@ -39,8 +41,6 @@ public class ZodiacManager extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Events.PlayerQuit(), this);
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Patches.NetherRTP(), this);
 		
-		getCommand("market").setExecutor(AutoMalls.getInstance().getBaseCommand());
-		
 		fm.loadFile(new RestartConfig());
 		getCommand("serverrestarter").setExecutor(ServerRestarter.getInstance().getBaseCommand());
 		
@@ -64,6 +64,7 @@ public class ZodiacManager extends JavaPlugin {
 		
 		fm.loadFile(MallConfig.getInstance());
 		Bukkit.getPluginManager().registerEvents(com.zodiacmc.ZodiacManager.Cuboids.CuboidFactoryManager.getInstance(), this);
+
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.BlockBreak(), this);
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.BlockPlace(), this);
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.CreatureSpawn(), this);
@@ -79,6 +80,8 @@ public class ZodiacManager extends JavaPlugin {
 		for (WorldBlock block : WorldBlock.getLoadedInstances(WorldBlockType.WORLDANCHOR)) {
 			block.destroy();
 		}
+		PlaytimeUpdater.getInstance().stop();
+		ShopUpdater.getInstance().stop();
 	}
 	
 	public static ZodiacManager getInstance() {

@@ -24,12 +24,15 @@ public class CheckTime extends SubCommand {
 		User u = UserManager.getInstance().getOnlineUser(sender.getName());
 		List<Shop> ownedShops = new ArrayList<Shop>();
 		for (Mall mall : Mall.getMalls()) {
+			//ConsoleUtil.sendMessage("Mall shop size " + mall.getShops().size());
 			for (Shop shop : mall.getShops()) {
 				if (shop.getOwner() == u) {
 					ownedShops.add(shop);
+					break;
 				}
 			}
 		}
+		//ConsoleUtil.sendMessage("ownedShop size " + ownedShops.size());
 		if (ownedShops.size() == 0)
 			return this.error("You do not own any shops!");
 		for (Shop shop : ownedShops) {

@@ -3,8 +3,6 @@ package com.zodiacmc.ZodiacManager.Malls.Cuboids;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zodiacmc.ZodiacManager.Configurations.ConfigType;
-import com.zodiacmc.ZodiacManager.Configurations.FileManager;
 import com.zodiacmc.ZodiacManager.Cuboids.Cuboid;
 import com.zodiacmc.ZodiacManager.Cuboids.CuboidContainer;
 import com.zodiacmc.ZodiacManager.Malls.Configurations.MallConfig;
@@ -17,8 +15,7 @@ public class Mall implements CuboidContainer {
 	private Cuboid cuboid;
 	private int dailyCost;
 	private List<Shop> shops;
-	private FileManager fm = FileManager.getInstance();
-	private MallConfig config = (MallConfig)fm.getConfig(ConfigType.MALL);
+	private MallConfig config = MallConfig.getInstance();
 	
 	public Mall(MallType type, Cuboid cuboid) {
 		this.type = type;

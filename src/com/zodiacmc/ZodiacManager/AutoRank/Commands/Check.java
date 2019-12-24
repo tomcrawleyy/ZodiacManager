@@ -9,6 +9,7 @@ import com.zodiacmc.ZodiacManager.AutoRank.Ranking.Rank;
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
+import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
 import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
 import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
 
@@ -30,6 +31,7 @@ public class Check extends SubCommand {
 			Rank r = u.getRank().getNextRank();
 			if (r != null) {
 				long timeRequired = TimeUnit.HOURS.toMillis((long)r.getHoursRequired()) - u.getTimePlayed(true);
+				ConsoleUtil.sendMessage(timeRequired + "");
 				return this.resolve("and will rank up to &d" + r.getName() + " &ain " + TimeUtil.getReadableTime(timeRequired, TimeUnit.MILLISECONDS, false));
 			}
 			return true;

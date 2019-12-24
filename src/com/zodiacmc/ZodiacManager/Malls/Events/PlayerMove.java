@@ -78,7 +78,7 @@ public class PlayerMove implements Listener {
 			if (shop.getOwner() == u) {
 				u.sendMessage(prefix + "&aWelcome back to your shop!");
 				u.sendMessage(prefix + "&aThis shop will expire in " + TimeUtil.getReadableTime(shop.getTimeLeft(), TimeUnit.MILLISECONDS, false));
-			} if (shop.getOwner() == null) {
+			} else if (shop.getOwner() == null) {
 				u.sendMessage(prefix + "&aThis shop is for sale! Price per day: $" + shop.getPrice() + ", 7 days included in initial lease.");
 			} else {
 				u.sendMessage(prefix + "You are now entering " + shop.getOwner().getName() + "'s shop!");

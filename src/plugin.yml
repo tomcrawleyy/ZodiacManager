@@ -15,6 +15,10 @@ commands:
     description: Custom autorank plugin for ZodiacMC
     usage: /autorank
     aliases: [ar]
+  minimumprices:
+    description: Custom plugin for handling minimum prices for ZodiacMC
+    usage: /minimumprices
+    aliases: [minprice, minprices, checkprice]
   chunkmanager:
     description: Custom chunkmanager plugin for ZodiacMC
     usage: /chunkmanager

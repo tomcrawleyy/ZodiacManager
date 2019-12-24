@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
+import com.zodiacmc.ZodiacManager.Malls.Configurations.MallConfig;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Users.User;
@@ -58,6 +59,7 @@ public class AbandonShop extends SubCommand {
 		if (shop == null)
 			return this.error("You do not own a shop in the " + mall.getType().getReadableName() + " mall!");
 		shop.reset();
+		MallConfig.getInstance().saveMalls();
 		return this.success("Shop has successfully been abandoned!");
 	}
 

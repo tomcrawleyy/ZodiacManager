@@ -46,6 +46,7 @@ public class RedefineMall extends SubCommand {
 			}
 		}
 		cuboidFactoryManager.addUser(u, new CuboidRedefinerFactory(u, mall, true));
+		IgnoreProtection.getUsersIgnoringProtection().add(u);
 		return this.success("You are now in setup mode! Place a block in the first corner");
 	}
 

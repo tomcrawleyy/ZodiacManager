@@ -73,6 +73,7 @@ public class BaseCommand implements CommandExecutor {
 					String[] newArgs = new String[args.length - 1];
 					for (int i = 1; i < args.length; i++)
 						newArgs[i - 1] = args[i];
+					subCommand.setSender(sender);
 					return subCommand.processCommand(sender, newArgs);
 				}
 			}

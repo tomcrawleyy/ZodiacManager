@@ -8,6 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import com.zodiacmc.ZodiacManager.Cuboids.Factories.CuboidRedefinerFactory;
+import com.zodiacmc.ZodiacManager.Malls.Configurations.MallConfig;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Factories.MallFactory;
@@ -31,6 +33,7 @@ public class CuboidFactoryManager implements Listener {
 		User u = UserManager.getInstance().getOnlineUser(p);
 		if (!isInSetupMode(u))
 			return;
+		MallConfig mallConfig = MallConfig.getInstance();
 		CuboidFactory factoryInstance = getUser(u);
 		if (factoryInstance.getLocation1() == null) {
 			factoryInstance.setLocation1(e.getBlock().getLocation());
@@ -59,12 +62,16 @@ public class CuboidFactoryManager implements Listener {
 				e.setCancelled(true);
 				return;
 			}
-			sf.getMall().addShop(new Shop(sf.getMall(), sf.setLocation2(e.getBlock().getLocation()), sf.getPrice()));
+			new Shop(sf.getMall(), sf.setLocation2(e.getBlock().getLocation()), sf.getPrice());
 			u.sendMessage("&aShop has been added successfully!");
 			break;
-		default:
-			return;
+		case REDEFINE:
+			CuboidRedefinerFactory crf = (CuboidRedefinerFactory)factoryInstance;
+			crf.getContainer().setCuboid(crf.setLocation2(e.getBlock().getLocation()));
+			u.sendMessage("&7(&fCuboid&dRedefiner&7) &aRedefine success!");
+			break;
 		}
+		mallConfig.saveMalls();
 		removeUser(u);
 		e.setCancelled(true);
 		return;

@@ -1,28 +1,25 @@
 package com.zodiacmc.ZodiacManager.Malls.Commands;
 
+import java.util.concurrent.TimeUnit;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
+import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
 
-public class SetDailyPrice extends SubCommand {
-	
-	public SetDailyPrice() {
-		super("SetDailyPrice", true);
+public class SetTimeLeft extends SubCommand {
+
+	public SetTimeLeft() {
+		super("SetTimeLeft", true);
 	}
-	
+
 	public boolean processCommand(CommandSender sender, String[] args) {
 		Player p = (Player) sender;
-		if (args.length != 1)
-			return this.usage("AutoMalls SetDailyPrice <Price>");
-		int amount;
-		try {
-			amount = Integer.parseInt(args[0]);
-		} catch(NumberFormatException e) {
-			return this.usage("AutoMalls SetDailyPrice <Price>");
-		}
+		if (args.length != 2)
+			return this.usage("Mall SetTimeLeft <Time> <TimeUnit>");
 		Mall mall = null;
 		for (Mall localMall : Mall.getMalls()) {
 			if (localMall.getCuboid().isInCuboid(p.getLocation())) {
@@ -41,9 +38,24 @@ public class SetDailyPrice extends SubCommand {
 		}
 		if (shop == null)
 			return this.error("You must be standing inside of a shop to perform this command!");
-		shop.setPrice(amount);
-		shop.saveConfig();
-		return this.success("Shop price has been successfully updated to: " + amount);
+		long time;
+		try {
+			time = Long.parseLong(args[0]);
+		} catch (NumberFormatException e) {
+			return this.usage("Mall SetTimeLeft <Time> <TimeUnit>");
+		}
+		TimeUnit unit = null;
+		for (TimeUnit localUnit : TimeUnit.values()) {
+			if (args[1].equalsIgnoreCase(localUnit.name())) {
+				unit = localUnit;
+				break;
+			}
+		}
+		if (unit == null)
+			return this.error("Invalid TimeUnit (Days, Hours, Minutes, Seconds, Milliseconds)");
+		shop.setTimeLeft(time, unit);
+		return this.success("TimeLeft has been successfully updated to: "
+				+ TimeUtil.getReadableTime(shop.getTimeLeft(), TimeUnit.MILLISECONDS, false));
 	}
 
 }

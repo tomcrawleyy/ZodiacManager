@@ -26,6 +26,8 @@ public class Trust extends SubCommand {
 		if (args.length > 2 | args.length < 1)
 			return this.usage("AutoMalls Trust <PlayerName> <Optional<PermissionType>>");
 		User targetUser = userManager.getUserOnlineOrOffline(args[0]);
+		if (!targetUser.exists())
+			return this.error("TargetUser does not exist!");
 		MallPermissionType permissionType = null;
 		if (args.length == 2) {
 			for (MallPermissionType localPermissionType : MallPermissionType.values()) {
@@ -65,18 +67,13 @@ public class Trust extends SubCommand {
 		if (shop.getOwner() != user) {
 			if (shop.getTrustedUsers().containsKey(user)) {
 				if (permissionType == MallPermissionType.MANAGEMENT
-						| permissionType == MallPermissionType.REFILLMANAGEMENT
-						| permissionType == MallPermissionType.RENEWMANAGEMENT
-						| permissionType == MallPermissionType.WARPMANAGEMENT
-						| permissionType == MallPermissionType.ALL)
+						|| permissionType == MallPermissionType.RENEWMANAGEMENT
+						|| permissionType == MallPermissionType.WARPMANAGEMENT
+						|| permissionType == MallPermissionType.ALL)
 					return this.error("Only the shop owner can allocate this permission!");
 				List<MallPermissionType> userPermissions = shop.getTrusteesPermissions(user);
 				boolean trust = false;
 				switch (permissionType) {
-				case REFILL:
-					if (userPermissions.contains(MallPermissionType.REFILLMANAGEMENT))
-						trust = true;
-					break;
 				case RENEW:
 					if (userPermissions.contains(MallPermissionType.RENEWMANAGEMENT))
 						trust = true;
@@ -101,6 +98,7 @@ public class Trust extends SubCommand {
 		if (targetsPermissions.contains(permissionType))
 			return this.error(targetUser.getName() + " is already trusted with that permission!");
 		shop.getTrusteesPermissions(targetUser).add(permissionType);
+		shop.saveConfig();
 		return this.resolve("Player " + targetUser.getName() + " has been successfully trusted to " + permissionType.getDescription());
 	}
 

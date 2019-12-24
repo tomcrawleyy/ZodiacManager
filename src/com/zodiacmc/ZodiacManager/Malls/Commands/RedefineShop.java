@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
 import com.zodiacmc.ZodiacManager.Cuboids.CuboidFactoryManager;
+import com.zodiacmc.ZodiacManager.Cuboids.Factories.CuboidRedefinerFactory;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Users.User;
@@ -40,8 +41,9 @@ public class RedefineShop extends SubCommand {
 		}
 		if (shop == null) 
 			return this.error("You must be standing inside a shop to specify which one!");
-		
-		return this.success("");
+		cuboidFactoryManager.addUser(u, new CuboidRedefinerFactory(u, shop, false));
+		IgnoreProtection.getUsersIgnoringProtection().add(u);
+		return this.success("You are now in setup mode! Place a block in the first corner");
 	}
 
 }

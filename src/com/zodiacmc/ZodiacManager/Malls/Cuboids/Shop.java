@@ -1,5 +1,6 @@
 package com.zodiacmc.ZodiacManager.Malls.Cuboids;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ public class Shop implements CuboidContainer {
 		this.mall.addShop(this);
 		this.price = price;
 		this.warp = this.cuboid.getCenter();
+		this.user = null;
 	}
 
 	public Shop(Mall mall, Cuboid cuboid, int price, User user) {
@@ -98,6 +100,8 @@ public class Shop implements CuboidContainer {
 	}
 
 	public List<MallPermissionType> getTrusteesPermissions(User u) {
+		if (!this.trustedUsers.containsKey(u))
+			trustedUsers.put(u, new ArrayList<MallPermissionType>());
 		return trustedUsers.get(u);
 	}
 
@@ -132,7 +136,7 @@ public class Shop implements CuboidContainer {
 		}
 		this.trustedUsers.clear();
 		this.user = null;
-		//TODO Remove all blocks from shop
+		this.cuboid.clearCuboid();
 	}
 	
 	public void saveConfig() {

@@ -19,7 +19,7 @@ public class PlayerTeleport implements Listener {
 		User u = UserManager.getInstance().getOnlineUser(p);
 		for (Mall mall : Mall.getMalls()) {
 			if (mall.getType() != MallType.DONOR)
-				return;
+				continue;
 			if (!mall.getCuboid().isInCuboid(e.getTo()))
 				return;
 			if (u.getRank().getRankType() != RankType.DEFAULT)

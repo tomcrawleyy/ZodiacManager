@@ -21,7 +21,7 @@ public class SetRemovalDelay extends SubCommand {
 	
 	public boolean processCommand(CommandSender sender, String[] args) {
 		if (((!(sender instanceof Player)) && (args.length != 4)) | (args.length < 3))
-			return this.usage("ChunkManager SetLimit <BlockType> <Rank> <Delay> <TimeUnit>");
+			return this.usage("ChunkManager SetRemovalDelay <BlockType> <Rank> <Delay> <TimeUnit>");
 		WorldBlockType blockType = null;
 		String rankString = "";
 		String delayString = "";
@@ -60,7 +60,7 @@ public class SetRemovalDelay extends SubCommand {
 		try {
 			delay = Integer.parseInt(delayString);
 		} catch (NumberFormatException e) {
-			return this.usage("ChunkManager SetLimit <BlockType> <Rank> <NewLimit>");
+			return this.usage("ChunkManager SetRemovalDelay <Rank> <Delay> <TimeUnit>");
 		}
 		TimeUnit unit = null;
 		for (TimeUnit localUnit : TimeUnit.values()) {

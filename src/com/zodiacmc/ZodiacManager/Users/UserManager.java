@@ -63,6 +63,8 @@ public class UserManager {
 			onlineStaffList.add(u);
 		for (Mall mall : Mall.getMalls()) {
 			for (Shop shop : mall.getShops()) {
+				if (shop.getOwner() == null)
+					continue;
 				if (shop.getOwner().getName().equalsIgnoreCase(u.getName())) {
 					shop.setOwner(u);
 				}

@@ -59,6 +59,7 @@ public class RenewLease extends SubCommand {
 		if (!r.transactionSuccess())
 			return this.error("You do not have the required funds to perform this command!");
 		shop.addDays(days);
+		shop.saveConfig();
 		return this.success("You have successfully added " + days + " days to the shop lease.");
 	}
 

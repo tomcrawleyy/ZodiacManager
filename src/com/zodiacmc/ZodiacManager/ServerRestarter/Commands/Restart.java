@@ -1,5 +1,6 @@
 package com.zodiacmc.ZodiacManager.ServerRestarter.Commands;
 
+
 import org.bukkit.command.CommandSender;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
@@ -13,8 +14,6 @@ public class Restart extends SubCommand {
 
 	@Override
 	public boolean processCommand(CommandSender sender, String[] args) {
-		if (args.length > 0)
-			return this.usage("ServerRestarter Restart");
 		RestartScheduler.getInstance().forceRestart();
 		return this.success("The server will now restart!");
 	}

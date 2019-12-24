@@ -44,6 +44,7 @@ public class SetWarp extends SubCommand {
 								+ shop.getOwner().getName() + "'s shop warp.");
 		}
 		shop.setWarp(player.getLocation());
+		shop.saveConfig();
 		return this.resolve("Shop warp has been successfully updated!");
 	}
 

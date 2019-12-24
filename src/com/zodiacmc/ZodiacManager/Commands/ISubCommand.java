@@ -10,4 +10,5 @@ public interface ISubCommand {
 	public String name();
 	public void setBaseCommand(BaseCommand command);
 	public BaseCommand getBaseCommand();
+	public void setSender(CommandSender sender);
 }

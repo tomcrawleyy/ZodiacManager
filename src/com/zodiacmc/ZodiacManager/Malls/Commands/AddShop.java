@@ -33,6 +33,9 @@ public class AddShop extends SubCommand {
 
 		for (Mall mall : Mall.getMalls()) {
 			if (mall.getCuboid().isInCuboid(player.getLocation())) {
+				if (!IgnoreProtection.getUsersIgnoringProtection().contains(u)) {
+					IgnoreProtection.getUsersIgnoringProtection().add(u);
+				}
 				cuboidFactoryManager.addUser(u, new ShopFactory(u, mall, price));
 				return this.success("You are now in setup mode! Place a block in the first corner 1 block above the floor to mark its location!");
 			}
