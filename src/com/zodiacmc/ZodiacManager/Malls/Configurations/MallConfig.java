@@ -1,7 +1,6 @@
 package com.zodiacmc.ZodiacManager.Malls.Configurations;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +78,7 @@ public class MallConfig implements IConfiguration {
 					if (this.config.isString("Malls." + type.getReadableName() + ".Shops." + i + ".Owner")) {
 						String owner = this.config
 								.getString("Malls." + type.getReadableName() + ".Shops." + i + ".Owner");
-						User u = UserManager.getInstance().getUserOnlineOrOffline(owner);
+						User u = UserManager.getInstance().getUser(owner);
 						shop.setOwner(u);
 						long timeLeft = this.config
 								.getLong("Malls." + type.getReadableName() + ".Shops." + i + ".TimeLeft");
@@ -102,7 +101,7 @@ public class MallConfig implements IConfiguration {
 									"Malls." + type.getReadableName() + ".Shops." + i + ".TrustedUsers")
 							.getKeys(true)) {
 						List<MallPermissionType> userPermissions = new ArrayList<MallPermissionType>();
-						User tu = UserManager.getInstance().getUserOnlineOrOffline(trustedUser);
+						User tu = UserManager.getInstance().getUser(trustedUser);
 						for (String permissionType : this.config.getConfigurationSection(
 								"Malls." + type.getReadableName() + ".Shops." + i + ".TrustedUsers." + trustedUser)
 								.getKeys(true)) {

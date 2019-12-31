@@ -11,7 +11,6 @@ import org.bukkit.Material;
 import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTask;
 import com.zodiacmc.ZodiacManager.Users.User;
-import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
 import com.zodiacmc.ZodiacManager.Utilities.LocationUtil;
 
 public class WorldBlock {
@@ -21,7 +20,6 @@ public class WorldBlock {
 	private static Map<WorldBlockType, List<WorldBlock>> loadedInstances = new HashMap<WorldBlockType, List<WorldBlock>>();
 	private static Map<User, List<ScheduledTask>> scheduledRemovals = new HashMap<User, List<ScheduledTask>>();
 	private static List<WorldBlock> scheduledBlocks = new ArrayList<WorldBlock>();
-	private static Map<String, List<WorldBlock>> offlineUserLocations = new HashMap<String, List<WorldBlock>>();
 	private WorldBlockConfig config;
 	private User user;
 
@@ -29,6 +27,7 @@ public class WorldBlock {
 		this.type = type;
 		this.location = location;
 		this.user = user;
+		this.user.getWorldBlocks(type).add(this);
 		this.config = WorldBlockConfig.getInstance(type);
 		if (config.destroyOnLogout()) {
 			if (user.isOnline()) {
@@ -38,19 +37,8 @@ public class WorldBlock {
 				getLoadedInstances(type).add(this);
 			}
 		} else {
-			if (!user.isOnline()) {
-				if (!offlineUserLocations.containsKey(user.getName()))
-					offlineUserLocations.put(user.getName(), new ArrayList<WorldBlock>());
-				offlineUserLocations.get(user.getName()).add(this);
-			}
 			getLoadedInstances(type).add(this);
 		}
-	}
-
-	public static List<WorldBlock> getOfflineUserInstances(User u) {
-		if (offlineUserLocations.containsKey(u.getName()))
-			return offlineUserLocations.get(u.getName());
-		return null;
 	}
 
 	public static List<WorldBlock> getLoadedInstances(WorldBlockType type) {
@@ -65,11 +53,7 @@ public class WorldBlock {
 		if (WorldBlock.getScheduledBlocks().contains(this)) {
 			WorldBlock.getScheduledBlocks().remove(this);
 		}
-		if (offlineUserLocations.containsKey(user.getName())) {
-			offlineUserLocations.get(user.getName()).remove(this);
-			if (offlineUserLocations.get(user.getName()).size() == 0)
-				offlineUserLocations.remove(user.getName());
-		}
+		
 	}
 
 	public String serialize() {
@@ -78,21 +62,6 @@ public class WorldBlock {
 
 	public User getPlacedBy() {
 		return user;
-	}
-
-	public void setPlacedBy(User u) {
-		if (user.isOnline()) {
-			ConsoleUtil.sendMessage("&cError: This block user is already online!");
-			return;
-		}
-		if (!user.getName().equalsIgnoreCase(u.getName())) {
-			ConsoleUtil.sendMessage("&cError: SetPlacedBy Users dont match");
-			return;
-		}
-		offlineUserLocations.get(user.getName()).remove(this);
-		if (offlineUserLocations.get(user.getName()).isEmpty())
-			offlineUserLocations.remove(user.getName());
-		user = u;
 	}
 
 	public static List<WorldBlock> getScheduledBlocks() {

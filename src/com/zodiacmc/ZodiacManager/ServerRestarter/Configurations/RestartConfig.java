@@ -15,6 +15,13 @@ public class RestartConfig implements IConfiguration {
 	private FileManager fm = FileManager.getInstance();
 	private FileConfiguration config;
 	private File file;
+	private static RestartConfig instance;
+	private RestartConfig() {}
+	public static RestartConfig getInstance() {
+		if (instance == null)
+			instance = new RestartConfig();
+		return instance;
+	}
 
 	@Override
 	public FileConfiguration getConfig() {

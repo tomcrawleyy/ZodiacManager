@@ -23,7 +23,7 @@ public class Untrust extends SubCommand {
 		Player p = (Player) sender;
 		if (args.length == 0 | args.length > 2)
 			return this.usage("AutoMalls Untrust <PlayerName> <Optional<PermissionType>>");
-		User targetUser = UserManager.getInstance().getUserOnlineOrOffline(args[0]);
+		User targetUser = UserManager.getInstance().getUser(args[0]);
 		Mall mall = null;
 		Shop shop = null;
 		for (Mall localMall : Mall.getMalls()) {

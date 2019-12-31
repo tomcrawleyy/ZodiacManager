@@ -19,8 +19,7 @@ import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
 
 public class PlayerMove implements Listener {
 
-	AutoMalls plugin = AutoMalls.getInstance();
-	String prefix = plugin.getBaseCommand().getPrefix();
+	String prefix = "&f(&dAuto&fRank) ";
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent e) {

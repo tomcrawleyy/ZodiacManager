@@ -25,6 +25,7 @@ import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlock;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
 import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
+import com.zodiacmc.ZodiacManager.Plugins.ChunkManager;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTask;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTaskException;
 import com.zodiacmc.ZodiacManager.Utilities.LocationUtil;
@@ -67,12 +68,6 @@ public class User {
 			}
 			WorldBlock.getScheduledRemovals().remove(this);
 		}
-		List<WorldBlock> offlineInstances = WorldBlock.getOfflineUserInstances(this);
-		if (offlineInstances != null) {
-			for (WorldBlock block : offlineInstances) {
-				block.setPlacedBy(this);
-			}
-		}
 	}
 	
 	public List<Shop> getTrustedShops(){
@@ -102,7 +97,7 @@ public class User {
 				}
 			} else {
 				try {
-					ScheduledTask t = ScheduledTask.Builder.create(name + "WorldBlockRemover: " + type.name())
+					ScheduledTask t = ScheduledTask.Builder.create(name + "WorldBlockRemover: " + type.name(), ChunkManager.getInstance())
 							.delay((int) delay).execute(task -> {
 								for (WorldBlock block : this.getWorldBlocks(type)) {
 									block.destroy();

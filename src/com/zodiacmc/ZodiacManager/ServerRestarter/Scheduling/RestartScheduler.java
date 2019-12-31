@@ -6,13 +6,15 @@ import org.bukkit.Bukkit;
 
 import com.zodiacmc.ZodiacManager.Configurations.ConfigType;
 import com.zodiacmc.ZodiacManager.Configurations.FileManager;
+import com.zodiacmc.ZodiacManager.Plugins.IPlugin;
+import com.zodiacmc.ZodiacManager.Scheduling.IScheduler;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTask;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTaskException;
 import com.zodiacmc.ZodiacManager.ServerRestarter.Configurations.RestartConfig;
 import com.zodiacmc.ZodiacManager.Utilities.BroadcastUtil;
 import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
 
-public class RestartScheduler {
+public class RestartScheduler implements IScheduler {
 	
 	private static RestartScheduler instance;
 	private ScheduledTask task;
@@ -35,10 +37,10 @@ public class RestartScheduler {
 		return TimeUtil.getReadableTime(timeUntilRestart, TimeUnit.SECONDS, false);
 	}
 	
-	public void start() {
+	public void start(IPlugin plugin) {
 		try {
 			task = ScheduledTask.Builder
-					.create("Server Restarter")
+					.create("Server Restarter", plugin)
 					.repeat(1, TimeUnit.SECONDS)
 					.delay(1, TimeUnit.SECONDS)
 					.execute(task -> {

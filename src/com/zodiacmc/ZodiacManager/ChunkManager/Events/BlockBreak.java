@@ -26,6 +26,7 @@ public class BlockBreak implements Listener {
 				ConsoleUtil.sendMessage("&cError: BlockBreak 29 at " + LocationUtil.toString(e.getBlock().getLocation()));
 			}
 			block.destroy();
+			block.getPlacedBy().getWorldBlocks(type).remove(block);
 			config.removeInstance(block);
 		}
 	}

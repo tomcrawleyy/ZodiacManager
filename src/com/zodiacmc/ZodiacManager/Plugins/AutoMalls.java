@@ -1,6 +1,11 @@
 package com.zodiacmc.ZodiacManager.Plugins;
 
+import org.bukkit.Bukkit;
+
+import com.zodiacmc.ZodiacManager.ZodiacManager;
 import com.zodiacmc.ZodiacManager.Commands.BaseCommand;
+import com.zodiacmc.ZodiacManager.Configurations.FileManager;
+import com.zodiacmc.ZodiacManager.Listeners.PlayerJoinListener;
 import com.zodiacmc.ZodiacManager.Malls.Commands.AbandonShop;
 import com.zodiacmc.ZodiacManager.Malls.Commands.AddShop;
 import com.zodiacmc.ZodiacManager.Malls.Commands.CheckPermissions;
@@ -19,12 +24,15 @@ import com.zodiacmc.ZodiacManager.Malls.Commands.SetWarp;
 import com.zodiacmc.ZodiacManager.Malls.Commands.Trust;
 import com.zodiacmc.ZodiacManager.Malls.Commands.Untrust;
 import com.zodiacmc.ZodiacManager.Malls.Commands.Warp;
+import com.zodiacmc.ZodiacManager.Malls.Configurations.MallConfig;
 import com.zodiacmc.ZodiacManager.Malls.Scheduling.ShopUpdater;
+import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
 
 public class AutoMalls implements IPlugin{
 	
 	private BaseCommand baseCommand;
 	private static AutoMalls instance;
+	private static FileManager fm = FileManager.getInstance();
 	
 	public static AutoMalls getInstance() {
 		if (instance == null)
@@ -33,7 +41,19 @@ public class AutoMalls implements IPlugin{
 	}
 	
 	private AutoMalls() {
-		baseCommand = new BaseCommand("AutoMalls", "&7(&dZodiac&fMalls&7)");
+		ConsoleUtil.loadupMessage("&d+=====================================+");
+		ConsoleUtil.loadupMessage("&d|     &aZodiac&c\\<({~v3.0~})>/&aManager     &d|");
+		ConsoleUtil.loadupMessage("&d|               Auto &fMalls            &d|");
+		ConsoleUtil.loadupMessage("&d+=====================================+");
+		fm.loadFile(MallConfig.getInstance());
+		Bukkit.getPluginManager().registerEvents(com.zodiacmc.ZodiacManager.Cuboids.CuboidFactoryManager.getInstance(), ZodiacManager.getInstance());
+		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.BlockBreak(), ZodiacManager.getInstance());
+		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.BlockPlace(), ZodiacManager.getInstance());
+		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.CreatureSpawn(), ZodiacManager.getInstance());
+		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.PlayerMove(), ZodiacManager.getInstance());
+		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.Malls.Events.PlayerTeleport(), ZodiacManager.getInstance());
+		PlayerJoinListener.getInstance().addListener(new com.zodiacmc.ZodiacManager.Malls.Events.PlayerJoin());
+		baseCommand = new BaseCommand("AutoMalls", "&7(&dAuto&fMalls&7)");
 		baseCommand.instantiateCommand(new AbandonShop());
 		baseCommand.instantiateCommand(new AddShop());
 		baseCommand.instantiateCommand(new CheckPermissions());
@@ -52,8 +72,7 @@ public class AutoMalls implements IPlugin{
 		baseCommand.instantiateCommand(new Trust());
 		baseCommand.instantiateCommand(new Untrust());
 		baseCommand.instantiateCommand(new Warp());
-		ShopUpdater.getInstance().start();
-		
+		ShopUpdater.getInstance().start(this);
 	}
 	
 	public BaseCommand getBaseCommand() {

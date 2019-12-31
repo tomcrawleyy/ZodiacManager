@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import com.zodiacmc.ZodiacManager.AutoRank.Ranking.RankType;
 import com.zodiacmc.ZodiacManager.Cuboids.CuboidFactoryManager;
 import com.zodiacmc.ZodiacManager.Malls.Commands.IgnoreProtection;
-import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
-import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 
 public class UserManager {
 
@@ -20,19 +18,21 @@ public class UserManager {
 	private Map<String, User> onlineUsers;
 	private List<User> onlineUserList;
 	private List<User> onlineStaffList;
+	private List<User> offlineUserList;
 
 	private UserManager() {
 		instance = this;
 		onlineUsers = new HashMap<String, User>();
 		onlineUserList = new ArrayList<User>();
 		onlineStaffList = new ArrayList<User>();
+		offlineUserList = new ArrayList<User>();
 	}
 
 	public List<User> getOnlineUsers() {
 		return onlineUserList;
 	}
 
-	public User getUserOnlineOrOffline(String name) {
+	public User getUser(String name) {
 		User u = getOnlineUser(name);
 		if (u == null)
 			u = getOfflineUser(name);
@@ -52,24 +52,32 @@ public class UserManager {
 	}
 
 	public User getOfflineUser(String name) {
-		return new User(name);
+		for (User localUser : offlineUserList) {
+			if (localUser.getName().equalsIgnoreCase(name))
+				return localUser;
+		}
+		User u = new User(name);
+		offlineUserList.add(u);
+		return u;
 	}
 
 	public void login(Player p) {
-		User u = new User(p);
+		User u = null;
+		for (User localUser : offlineUserList) {
+			if (localUser.getName().equalsIgnoreCase(p.getName())) {
+				u = localUser;
+				break;
+			}
+		}
+		if (u == null) {
+			u = new User(p);
+		} else {
+			offlineUserList.remove(u);
+		}
 		onlineUsers.put(p.getName(), u);
 		onlineUserList.add(u);
 		if (u.getRank().getRankType() == RankType.STAFF)
 			onlineStaffList.add(u);
-		for (Mall mall : Mall.getMalls()) {
-			for (Shop shop : mall.getShops()) {
-				if (shop.getOwner() == null)
-					continue;
-				if (shop.getOwner().getName().equalsIgnoreCase(u.getName())) {
-					shop.setOwner(u);
-				}
-			}
-		}
 	}
 
 	public void logout(Player p) {
@@ -86,6 +94,7 @@ public class UserManager {
 		if (cuboidFactoryManager.isInSetupMode(u)) {
 			cuboidFactoryManager.removeUser(u);
 		}
+		offlineUserList.add(u);
 	}
 
 	public static UserManager getInstance() {

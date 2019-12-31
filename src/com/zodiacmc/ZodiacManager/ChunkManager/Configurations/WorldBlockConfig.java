@@ -30,6 +30,8 @@ public class WorldBlockConfig implements IConfiguration {
 	private FileConfiguration config;
 	private File file;
 	private Boolean destroyOnLogout;
+	private Map<Rank, Integer> limits;
+	private Map<Rank, Integer> delays;
 	private static Map<WorldBlockType, WorldBlockConfig> configInstances = new HashMap<WorldBlockType, WorldBlockConfig>();
 	private List<WorldBlock> instances;
 	private WorldBlockType worldBlockType;
@@ -37,6 +39,8 @@ public class WorldBlockConfig implements IConfiguration {
 	private WorldBlockConfig(WorldBlockType type) {
 		worldBlockType = type;
 		instances = new ArrayList<WorldBlock>();
+		limits = new HashMap<Rank, Integer>();
+		delays = new HashMap<Rank, Integer>();
 	}
 
 	public static WorldBlockConfig getInstance(WorldBlockType type) {
@@ -78,15 +82,23 @@ public class WorldBlockConfig implements IConfiguration {
 			config.set("destroyOnLogout", true);
 			for (Rank rank : RankManager.getInstance().getRanks()) {
 				config.set("destroyAfter." + rank.getName(), 0);
+				delays.put(rank, 0);
 				config.set("limiter." + rank.getName(), -1);
+				limits.put(rank, -1);
 			}
 			config.set("instances", new ArrayList<String>());
 			saveConfig();
+			return;
+		}
+		ConsoleUtil.sendMessage("&f(&dChunk&fManager) Loading " + worldBlockType.name().toLowerCase() + ".yml");
+		for (Rank rank : RankManager.getInstance().getRanks()) {
+			delays.put(rank, config.getInt("destroyAfter." + rank.getName()));
+			limits.put(rank, config.getInt("limiter." + rank.getName()));
 		}
 		for (String instance : config.getStringList("instances")) {
 			String instanceData[] = instance.split(";");
 			Location loc = LocationUtil.fromString(instanceData[1]);
-			User u = UserManager.getInstance().getUserOnlineOrOffline(instanceData[0]);
+			User u = UserManager.getInstance().getUser(instanceData[0]);
 			WorldBlock block = new WorldBlock(worldBlockType, loc, u);
 			instances.add(block);
 		}
@@ -118,13 +130,13 @@ public class WorldBlockConfig implements IConfiguration {
 			return;
 		}
 		instances.remove(block);
-		block.getPlacedBy().getWorldBlocks(worldBlockType).remove(block);
-		block.getPlacedBy().saveData();
+		config.set("instances", instances);
+		saveConfig();
 	}
 
 	@Override
 	public ConfigType getType() {
-		return ConfigType.WORLDBLOCK;
+		return worldBlockType.getConfigType();
 	}
 
 	@Override
@@ -145,22 +157,17 @@ public class WorldBlockConfig implements IConfiguration {
 	}
 
 	public long getRemovalDelay(Rank rank, TimeUnit unit) {
-		Long value;
-		try {
-			value = config.getLong("destroyAfter." + rank.getName());
-		} catch (Exception e) {
-			value = 0L;
-		}
-		return unit.convert(value, TimeUnit.MILLISECONDS);
+		return unit.convert(delays.get(rank), TimeUnit.MILLISECONDS);
 	}
 	
-	public void setRemovalDelay(Rank rank, long value, TimeUnit unit) {
+	public void setRemovalDelay(Rank rank, Long value, TimeUnit unit) {
+		delays.put(rank, value.intValue());
 		config.set("destroyAfter." + rank.getName(), TimeUnit.MILLISECONDS.convert(value, unit));
 		saveConfig();
 	}
 
 	public int getLimit(Rank rank) {
-		return config.getInt("limiter." + rank.getName());
+		return limits.get(rank);
 	}
 
 	public void setLimit(Rank rank, int newLimit) {

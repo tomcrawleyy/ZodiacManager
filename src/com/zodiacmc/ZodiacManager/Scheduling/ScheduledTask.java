@@ -2,6 +2,8 @@ package com.zodiacmc.ZodiacManager.Scheduling;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+
+import com.zodiacmc.ZodiacManager.Plugins.IPlugin;
 import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
 
 public abstract class ScheduledTask implements Runnable {
@@ -14,24 +16,25 @@ public abstract class ScheduledTask implements Runnable {
 	protected boolean isCancelled = false, started = false, exceptionThrown = false;
 	protected int taskID;
 	protected String name;
+	protected IPlugin plugin;
 	private static int ID = 0;
 
 	public ScheduledTask() {
 		this.creationStackTrace = Thread.currentThread().getStackTrace();
 		this.thread = new Thread(this);
-		// ScheduledTaskManager.getInstance().addScheduler(this);
 	}
 
 	public static class Builder extends ScheduledTask {
 
-		public Builder(String s) {
+		public Builder(String s, IPlugin plugin) {
 			this.taskID = ++ID;
 			this.name = s;
-			ConsoleUtil.sendMessage("Scheduled Task \"" + this.name + "\" With the ID of " + this.taskID + " created");
+			this.plugin = plugin;
+			ConsoleUtil.sendMessage(plugin.getBaseCommand().getPrefix() + " Scheduled Task \"" + this.name + "\" With the ID of " + this.taskID + " created");
 		}
 
-		public static ScheduledTask.Builder create(String name) {
-			return new Builder(name);
+		public static ScheduledTask.Builder create(String name, IPlugin plugin) {
+			return new Builder(name, plugin);
 		}
 
 		public ScheduledTask.Builder delay(int millis) throws ScheduledTaskException {
@@ -39,7 +42,7 @@ public abstract class ScheduledTask implements Runnable {
 				throw new ScheduledTaskException(this, "Scheduler has already started! Create a new Builder instance!");
 			if (isCancelled)
 				return this;
-			ConsoleUtil.sendMessage("Scheduled Task Delay Set To: " + millis + " milliseconds.");
+			ConsoleUtil.sendMessage(plugin.getBaseCommand().getPrefix() + " Scheduled Task Delay Set To: " + millis + " milliseconds.");
 			this.delay = millis;
 			return this;
 		}
@@ -49,7 +52,7 @@ public abstract class ScheduledTask implements Runnable {
 				throw new ScheduledTaskException(this, "Scheduler has already started! Create a new Builder instance!");
 			if (isCancelled)
 				return this;
-			ConsoleUtil.sendMessage("Scheduled Task Delay Set To: " + delay + " " + unit.name().toLowerCase() + ".");
+			ConsoleUtil.sendMessage(plugin.getBaseCommand().getPrefix() + " Scheduled Task Delay Set To: " + delay + " " + unit.name().toLowerCase() + ".");
 			this.delay = unit.toMillis(delay);
 			return this;
 		}
@@ -60,7 +63,7 @@ public abstract class ScheduledTask implements Runnable {
 			if (isCancelled)
 				return this;
 			this.interval = interval;
-			ConsoleUtil.sendMessage("Scheduled Task Interval Set To: " + interval);
+			ConsoleUtil.sendMessage(plugin.getBaseCommand().getPrefix() + " Scheduled Task Interval Set To: " + interval);
 			return this;
 		}
 
@@ -71,7 +74,7 @@ public abstract class ScheduledTask implements Runnable {
 				return this;
 			this.interval = unit.toMillis(interval);
 			ConsoleUtil
-					.sendMessage("Scheduled Task Interval Set To: " + interval + " " + unit.name().toLowerCase() + ".");
+					.sendMessage(plugin.getBaseCommand().getPrefix() + " Scheduled Task Interval Set To: " + interval + " " + unit.name().toLowerCase() + ".");
 			return this;
 		}
 
@@ -80,7 +83,7 @@ public abstract class ScheduledTask implements Runnable {
 				throw new ScheduledTaskException(this, "Scheduler has already started! Create a new Builder instance!");
 			if (isCancelled)
 				return this;
-			ConsoleUtil.sendMessage("Scheduled Task Consumer Setup");
+			ConsoleUtil.sendMessage(plugin.getBaseCommand().getPrefix() + " Scheduled Task Consumer Setup");
 			this.task = task;
 			return this;
 		}
@@ -90,7 +93,7 @@ public abstract class ScheduledTask implements Runnable {
 				throw new ScheduledTaskException(this, "Scheduler has already started! Create a new Builder instance!");
 			if (isCancelled)
 				return this;
-			ConsoleUtil.sendMessage("Scheduled Task Running....");
+			ConsoleUtil.sendMessage(plugin.getBaseCommand().getPrefix() + " Scheduled Task Running....");
 			ScheduledTaskManager.getInstance().addScheduler(this);
 			thread.start();
 			return this;

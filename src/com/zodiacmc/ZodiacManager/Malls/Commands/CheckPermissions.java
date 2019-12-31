@@ -40,7 +40,7 @@ public class CheckPermissions extends SubCommand {
 		if (args.length > 0) {
 			if (args.length > 1)
 				return this.usage("AutoMalls CheckPermissions <Optional<TargetUser>>");
-			User targetUser = UserManager.getInstance().getUserOnlineOrOffline(args[0]);
+			User targetUser = UserManager.getInstance().getUser(args[0]);
 			if (!targetUser.exists())
 				return this.error("Target user does not exist!");
 			if (!shop.getTrustedUsers().containsKey(targetUser))

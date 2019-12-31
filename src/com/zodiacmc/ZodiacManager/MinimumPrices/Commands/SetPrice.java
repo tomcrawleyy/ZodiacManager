@@ -7,8 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
+import com.zodiacmc.ZodiacManager.MinimumPrices.Configurations.MinimumPriceConfig;
 import com.zodiacmc.ZodiacManager.Models.WorldItem;
-import com.zodiacmc.ZodiacManager.Plugins.MinimumPrices;
 
 public class SetPrice extends SubCommand {
 
@@ -17,7 +17,8 @@ public class SetPrice extends SubCommand {
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
-		MinimumPrices instance = MinimumPrices.getInstance();
+		MinimumPriceConfig instance = MinimumPriceConfig.getInstance();
+		
 		WorldItem worldItem = null;
 		int price;
 		if (args.length != 2) {

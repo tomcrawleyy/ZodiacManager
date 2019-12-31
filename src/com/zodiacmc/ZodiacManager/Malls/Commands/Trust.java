@@ -25,7 +25,7 @@ public class Trust extends SubCommand {
 		Player p = (Player) sender;
 		if (args.length > 2 | args.length < 1)
 			return this.usage("AutoMalls Trust <PlayerName> <Optional<PermissionType>>");
-		User targetUser = userManager.getUserOnlineOrOffline(args[0]);
+		User targetUser = userManager.getUser(args[0]);
 		if (!targetUser.exists())
 			return this.error("TargetUser does not exist!");
 		MallPermissionType permissionType = null;

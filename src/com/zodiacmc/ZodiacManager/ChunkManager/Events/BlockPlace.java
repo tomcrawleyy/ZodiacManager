@@ -30,7 +30,6 @@ public class BlockPlace implements Listener {
 				}
 			}
 			WorldBlock finalBlock = new WorldBlock(type, e.getBlock().getLocation(), u);
-			u.getWorldBlocks(type).add(finalBlock);
 			typeInstance.addInstance(finalBlock);
 			break;
 		}

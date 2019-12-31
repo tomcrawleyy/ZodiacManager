@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
+import com.zodiacmc.ZodiacManager.MinimumPrices.Configurations.MinimumPriceConfig;
 import com.zodiacmc.ZodiacManager.Models.WorldItem;
-import com.zodiacmc.ZodiacManager.Plugins.MinimumPrices;
 
 public class CheckPrice extends SubCommand {
 
@@ -18,7 +18,7 @@ public class CheckPrice extends SubCommand {
 	}
 
 	public boolean processCommand(CommandSender sender, String[] args) {
-		Map<WorldItem, Integer> minimumPrices = MinimumPrices.getInstance().getMinimumPrices();
+		Map<WorldItem, Integer> minimumPrices = MinimumPriceConfig.getInstance().getMinimumPrices();
 		if (args.length != 1) {
 			if (!(sender instanceof Player))
 				return this.usage("MinimumPrices CheckPrice <ItemID:ItemData>");

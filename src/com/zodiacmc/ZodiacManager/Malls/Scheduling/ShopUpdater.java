@@ -5,11 +5,13 @@ import java.util.concurrent.TimeUnit;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Plugins.AutoMalls;
+import com.zodiacmc.ZodiacManager.Plugins.IPlugin;
+import com.zodiacmc.ZodiacManager.Scheduling.IScheduler;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTask;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTaskException;
 import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
 
-public class ShopUpdater {
+public class ShopUpdater implements IScheduler {
 	
 	private static ShopUpdater instance;
 	private ScheduledTask task;
@@ -20,10 +22,10 @@ public class ShopUpdater {
 		return instance;
 	}
 	
-	public void start() {
+	public void start(IPlugin plugin) {
 
 		try {
-			task = ScheduledTask.Builder.create("Shop Updater").repeat(5, TimeUnit.MINUTES).delay(1, TimeUnit.SECONDS)
+			task = ScheduledTask.Builder.create("Shop Updater", plugin).repeat(5, TimeUnit.MINUTES).delay(1, TimeUnit.SECONDS)
 					.execute(task -> {
 						String prefix = AutoMalls.getInstance().getBaseCommand().getPrefix();
 						ConsoleUtil.sendMessage(prefix + " Updating Shops....");

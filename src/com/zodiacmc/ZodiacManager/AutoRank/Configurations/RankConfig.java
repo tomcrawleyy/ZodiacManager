@@ -20,6 +20,13 @@ public class RankConfig implements IConfiguration {
 	private FileConfiguration config;
 	private File file;
 	private FileManager fm = FileManager.getInstance();
+	private static RankConfig instance;
+	private RankConfig() {}
+	public static RankConfig getInstance() {
+		if (instance == null)
+			instance = new RankConfig();
+		return instance;
+	}
 	
 	public FileConfiguration getConfig() {
 		return config;
@@ -62,7 +69,7 @@ public class RankConfig implements IConfiguration {
 			String rankType = config.getString(rank + ".rankType");
 			String nextRank = config.getString(rank + ".nextRank");
 			Rank r = new Rank(rank, prefix, rankType, hours, rankupMessage, rankUpRewards, dailyClaimblocks, dailyCash, nextRank);
-			ConsoleUtil.sendMessage(rank + ", prefix " + prefix + ", rankType " + rankType + ", hoursRequired " + hours + ", nextRank " + nextRank);
+			ConsoleUtil.sendMessage("&f(&dAuto&fRank) " + rank + ", prefix " + prefix + ", rankType " + rankType + ", hoursRequired " + hours + ", nextRank " + nextRank);
 			rankManager.loadRank(r);
 			ranks.add(r);
 		}
