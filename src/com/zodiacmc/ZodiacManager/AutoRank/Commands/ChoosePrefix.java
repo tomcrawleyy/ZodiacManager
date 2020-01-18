@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.AutoRank.Configurations.ChoosePrefixConfig;
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
+import com.zodiacmc.ZodiacManager.Users.User;
+import com.zodiacmc.ZodiacManager.Users.UserManager;
 import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
 
 public class ChoosePrefix extends SubCommand {
@@ -23,9 +25,11 @@ public class ChoosePrefix extends SubCommand {
 	@Override
 	public boolean processCommand(CommandSender sender, String[] args) {
 		Player player = (Player)sender;
+		User u = UserManager.getInstance().getOnlineUser(player);
 		if (args.length == 0) {
 			int i = 1;
 			sender.sendMessage(StringUtil.parseColours(command.getPrefix() + " &aAvailable Prefixes:"));
+			sender.sendMessage(StringUtil.parseColours("&c0. " + u.getRank().getPrefix()));
 			for (String prefix : prefixes) {
 				sender.sendMessage(StringUtil.parseColours("&c" + i + ". " + prefix));
 				i++;
@@ -40,10 +44,14 @@ public class ChoosePrefix extends SubCommand {
 		} catch (NumberFormatException e) {
 			return this.usage("AutoRank ChoosePrefix <Number>");
 		}
-		if (value < 0)
-			return this.error("Number must be greater than 0.");
+		if (value < -1)
+			return this.error("Number must be 0 or greater.");
 		if (prefixes.size() < value+1)
 			return this.error("Number must be smaller than " + (prefixes.size()+1) + ".");
+		if (value == -1) {
+			Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "manudelv " + player.getName() + " prefix ");
+			return this.success("Prefix has been successfully updated to: " + u.getRank().getPrefix());
+		}
 		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "manuaddv " + player.getName() + " prefix " + prefixes.get(value));
 		return this.success("Prefix has been successfully updated to: " + prefixes.get(value));
 	}

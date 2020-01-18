@@ -22,7 +22,7 @@ public class CheckOnline extends SubCommand {
 			return this.usage("ChunkManager CheckOnline <Block> <Optional<PageNumber>>");
 		WorldBlockType type = null;
 		for (WorldBlockType localType : WorldBlockType.values()) {
-			if (args[0].equalsIgnoreCase(localType.name())) {
+			if (args[0].equalsIgnoreCase(localType.name()) || args[0].equalsIgnoreCase(localType.getCapitalization())) {
 				type = localType;
 			}
 		}

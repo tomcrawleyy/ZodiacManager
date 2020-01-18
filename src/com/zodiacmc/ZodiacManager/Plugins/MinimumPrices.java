@@ -5,6 +5,8 @@ import org.bukkit.Bukkit;
 import com.zodiacmc.ZodiacManager.ZodiacManager;
 import com.zodiacmc.ZodiacManager.Commands.BaseCommand;
 import com.zodiacmc.ZodiacManager.Configurations.FileManager;
+import com.zodiacmc.ZodiacManager.MinimumPrices.Commands.CheckPrice;
+import com.zodiacmc.ZodiacManager.MinimumPrices.Commands.SetPrice;
 import com.zodiacmc.ZodiacManager.MinimumPrices.Configurations.MinimumPriceConfig;
 import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
 
@@ -26,7 +28,9 @@ public class MinimumPrices implements IPlugin {
 		ConsoleUtil.loadupMessage("&d|            Minimum &fPrices           &d|");
 		ConsoleUtil.loadupMessage("&d+=====================================+");
 		fm.loadFile(MinimumPriceConfig.getInstance());
-		baseCommand = new BaseCommand("MinimumPrices", "&7(&dMinimumPrices&7)");
+		baseCommand = new BaseCommand("MinimumPrices", "&f(&dMinimum&fPrices)");
+		baseCommand.instantiateCommand(new CheckPrice());
+		baseCommand.instantiateCommand(new SetPrice());
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.MinimumPrices.Events.BlockBreak(), ZodiacManager.getInstance());
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.MinimumPrices.Events.BlockPlace(), ZodiacManager.getInstance());
 	}

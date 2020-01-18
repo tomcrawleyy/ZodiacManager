@@ -34,7 +34,7 @@ public class UnloadBlocks extends SubCommand {
 		}
 		WorldBlockType block = null;
 		for (WorldBlockType type : WorldBlockType.values()) {
-			if (type.name().equalsIgnoreCase(args[0])) {
+			if (type.name().equalsIgnoreCase(args[0]) || type.getCapitalization().equalsIgnoreCase(args[0])) {
 				block = type;
 				continue;
 			}

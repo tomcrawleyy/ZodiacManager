@@ -28,7 +28,6 @@ import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Plugins.ChunkManager;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTask;
 import com.zodiacmc.ZodiacManager.Scheduling.ScheduledTaskException;
-import com.zodiacmc.ZodiacManager.Utilities.LocationUtil;
 import com.zodiacmc.ZodiacManager.Utilities.StringUtil;
 import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
 
@@ -44,6 +43,7 @@ public class User {
 	private Map<WorldBlockType, List<WorldBlock>> worldBlocks;
 	private List<Shop> ownedShops;
 	private List<Shop> trustedShops;
+	private long lastDailyRewardsTimestamp;
 
 	public User(String name) {
 		this.name = name;
@@ -90,7 +90,7 @@ public class User {
 			WorldBlockConfig config = WorldBlockConfig.getInstance(type);
 			if (!config.destroyOnLogout())
 				continue;
-			long delay = config.getRemovalDelay(rank, TimeUnit.MILLISECONDS);
+			long delay = config.getRemovalDelay(rank);
 			if (delay == 0) {
 				for (WorldBlock block : this.getWorldBlocks(type)) {
 					block.destroy();
@@ -112,6 +112,15 @@ public class User {
 			}
 		}
 		WorldBlock.getScheduledRemovals().put(this, tasks);
+	}
+	
+	public void handleDailyRewards() {
+		long currentTimestamp = System.nanoTime();
+		if (currentTimestamp >= lastDailyRewardsTimestamp + TimeUnit.DAYS.toNanos(1)) {
+			lastDailyRewardsTimestamp = currentTimestamp;
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "eco give " + name + " " + rank.getDailyCash());
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "acb " + name + " " + rank.getDailyClaimblocks());
+		}
 	}
 
 	public Rank getRank() {
@@ -170,19 +179,15 @@ public class User {
 				if (oldPlaytime != null) {
 					timePlayed = TimeUnit.MINUTES.toMillis(oldPlaytime);
 				}
-				for (WorldBlockType type : WorldBlockType.values()) {
-					playerConfig.set(type.name() + "s", new ArrayList<String>());
-				}
 				saveData();
 				fileExists = true;
 			}
 		} else {
-			for (WorldBlockType type : WorldBlockType.values()) {
-				for (String instance : playerConfig.getStringList(type.name().toLowerCase() + "s")) {
-					this.getWorldBlocks(type).add(new WorldBlock(type, LocationUtil.fromString(instance), this));
-				}
-			}
 			timePlayed = playerConfig.getLong("timePlayed");
+			Long rewardsTimestamp = playerConfig.getLong("rewardsTimestamp");
+			if (rewardsTimestamp != null){
+				lastDailyRewardsTimestamp = rewardsTimestamp;
+			}
 			rank = RankManager.getInstance().getRank(playerConfig.getString("rank"));
 		}
 	}
@@ -209,14 +214,7 @@ public class User {
 		playerConfig.set("rank", rank.getName());
 		lastCheck = date.getTime();
 		playerConfig.set("timePlayed", timePlayed);
-		List<String> serializedWorldBlocks;
-		for (WorldBlockType type : WorldBlockType.values()) {
-			serializedWorldBlocks = new ArrayList<String>();
-			for (WorldBlock worldBlock : this.getWorldBlocks(type)) {
-				serializedWorldBlocks.add(LocationUtil.toString(worldBlock.getLocation()));
-			}
-			playerConfig.set(type.name().toLowerCase() + "s", serializedWorldBlocks);
-		}
+		playerConfig.set("rewardsTimestamp", lastDailyRewardsTimestamp);
 		saveData();
 	}
 

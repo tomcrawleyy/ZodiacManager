@@ -32,7 +32,7 @@ public class CheckRemovalDelay extends SubCommand {
 		WorldBlockType type = null;
 		for (WorldBlockType localType : WorldBlockType.values()) {
 			if (args.length == 2) {
-				if (localType.name().equalsIgnoreCase(args[0])) {
+				if (localType.name().equalsIgnoreCase(args[0]) || localType.getCapitalization().equalsIgnoreCase(args[0])) {
 					type = localType;
 					break;
 				}
@@ -67,12 +67,12 @@ public class CheckRemovalDelay extends SubCommand {
 		WorldBlockConfig config = WorldBlockConfig.getInstance(type);
 		if (!config.destroyOnLogout())
 			return this.resolve("This block does not get removed after you log out!");
-		long removalMinutes = config.getRemovalDelay(r, TimeUnit.MINUTES);
-		if (removalMinutes == 0)
+		long removalTime = config.getRemovalDelay(r);
+		if (removalTime == 0)
 			return this.resolve("This block will get removed as soon as you log out!");
-		String time = TimeUtil.getReadableTime(removalMinutes, TimeUnit.MINUTES, false);
+		String time = TimeUtil.getReadableTime(removalTime, TimeUnit.MILLISECONDS, false);
 		if (args.length == 2)
 			return this.resolve("BlockType: " + args[0] + " for Rank: " + args[1] + " Will remove " + time + " after Logout.");
-		return this.resolve("BlockType:" + type.name() + " Will remove " + time + " after logout.");
+		return this.resolve(type.getCapitalization() + "s will get removed " + time + " after you logout.");
 	}
 }

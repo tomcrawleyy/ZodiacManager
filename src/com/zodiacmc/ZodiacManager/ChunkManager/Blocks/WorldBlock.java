@@ -49,11 +49,18 @@ public class WorldBlock {
 
 	public void destroy() {
 		WorldBlock.getLoadedInstances(type).remove(this);
-		location.getBlock().setType(Material.AIR);
+		this.location.getBlock().setType(Material.AIR);
 		if (WorldBlock.getScheduledBlocks().contains(this)) {
 			WorldBlock.getScheduledBlocks().remove(this);
 		}
 		
+	}
+	
+	public void login() {
+		this.location.getBlock().setTypeId(type.getID());
+		if (type.getData() != -1)
+			this.location.getBlock().setData((byte) type.getData());
+		getLoadedInstances(type).add(this);
 	}
 
 	public String serialize() {

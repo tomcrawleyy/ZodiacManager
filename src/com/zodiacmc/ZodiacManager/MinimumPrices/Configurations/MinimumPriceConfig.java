@@ -3,6 +3,7 @@ package com.zodiacmc.ZodiacManager.MinimumPrices.Configurations;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,12 +60,14 @@ public class MinimumPriceConfig implements IConfiguration {
 			serializedPrices.add(item.serialize() + "," + minimumPrices.get(item));
 		}
 		config.set("minimum-prices", serializedPrices);
+		saveConfig();
 	}
 
 	@Override
 	public void loadConfig(Plugin p) {
 		file = new File(p.getDataFolder() + "/MinimumPrices/", "minimum-prices.yml");
 		config = YamlConfiguration.loadConfiguration(file);
+		minimumPrices = new HashMap<WorldItem, Integer>();
 		if (!file.exists()) {
 			List<String> minPrices = new ArrayList<String>();
 			config.set("minimum-prices", minPrices);

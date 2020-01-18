@@ -18,9 +18,12 @@ public class SetPrice extends SubCommand {
 
 	public boolean processCommand(CommandSender sender, String[] args) {
 		MinimumPriceConfig instance = MinimumPriceConfig.getInstance();
-		
+
 		WorldItem worldItem = null;
 		int price;
+		if (args.length == 0)
+			return (!(sender instanceof Player)) ? this.usage("MinimumPrices SetPrice <ItemID:ItemData> <Price>")
+					: this.usage("MinimumPrices SetPrice <Optional<ItemID:ItemData>> <Price>");
 		if (args.length != 2) {
 			if (!(sender instanceof Player))
 				return this.usage("MinimumPrices SetPrice <ItemID:ItemData> <Price>");
@@ -41,7 +44,7 @@ public class SetPrice extends SubCommand {
 			worldItem = new WorldItem(Integer.parseInt(data[0]), Byte.parseByte(data[1]));
 			try {
 				price = Integer.parseInt(args[1]);
-			} catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				return this.error("Price must be an integer.");
 			}
 		}
@@ -63,15 +66,15 @@ public class SetPrice extends SubCommand {
 		if (worldItem.getData() == -1) {
 			if (count < 1) {
 				return this.success("The minimum price for everything with the ID of " + worldItem.getId()
-								+ " has been set to: " + price);
+						+ " has been set to: " + price);
 			} else {
 				return this.success("The minimum price for everything with the ID of " + worldItem.getId()
-								+ " has been set to: " + price + " and has overridden the prices for " + count
-								+ " items starting with the ID of " + worldItem.getId());
+						+ " has been set to: " + price + " and has overridden the prices for " + count
+						+ " items starting with the ID of " + worldItem.getId());
 			}
 		}
-		return this.success("The minimum price for " + worldItem.getId() + ":"
-				+ worldItem.getData() + " has been set to: " + price + ".");
+		return this.success("The minimum price for " + worldItem.getId() + ":" + worldItem.getData()
+				+ " has been set to: " + price + ".");
 	}
 
 }

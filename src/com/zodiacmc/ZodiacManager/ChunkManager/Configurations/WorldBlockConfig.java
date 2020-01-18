@@ -80,6 +80,7 @@ public class WorldBlockConfig implements IConfiguration {
 		config = YamlConfiguration.loadConfiguration(file);
 		if (!file.exists()) {
 			config.set("destroyOnLogout", true);
+			destroyOnLogout = true;
 			for (Rank rank : RankManager.getInstance().getRanks()) {
 				config.set("destroyAfter." + rank.getName(), 0);
 				delays.put(rank, 0);
@@ -91,6 +92,7 @@ public class WorldBlockConfig implements IConfiguration {
 			return;
 		}
 		ConsoleUtil.sendMessage("&f(&dChunk&fManager) Loading " + worldBlockType.name().toLowerCase() + ".yml");
+		destroyOnLogout = config.getBoolean("destroyOnLogout");
 		for (Rank rank : RankManager.getInstance().getRanks()) {
 			delays.put(rank, config.getInt("destroyAfter." + rank.getName()));
 			limits.put(rank, config.getInt("limiter." + rank.getName()));
@@ -110,6 +112,7 @@ public class WorldBlockConfig implements IConfiguration {
 			return;
 		}
 		instances.add(block);
+		ConsoleUtil.sendMessage("addInstance, size: " + instances.size());
 		List<String> localInstances = new ArrayList<String>();
 		for (WorldBlock localBlock : instances) {
 			localInstances.add(localBlock.getPlacedBy().getName() + ";" + LocationUtil.toString(localBlock.getLocation()));
@@ -130,7 +133,11 @@ public class WorldBlockConfig implements IConfiguration {
 			return;
 		}
 		instances.remove(block);
-		config.set("instances", instances);
+		if (!instances.isEmpty()) {
+			config.set("instances", instances);
+		} else {
+			config.set("instances", new ArrayList<String>());
+		}
 		saveConfig();
 	}
 
@@ -145,8 +152,6 @@ public class WorldBlockConfig implements IConfiguration {
 	}
 
 	public boolean destroyOnLogout() {
-		if (destroyOnLogout == null)
-			destroyOnLogout = config.getBoolean("destroyOnLogout");
 		return destroyOnLogout;
 	}
 	
@@ -156,8 +161,8 @@ public class WorldBlockConfig implements IConfiguration {
 		saveConfig();
 	}
 
-	public long getRemovalDelay(Rank rank, TimeUnit unit) {
-		return unit.convert(delays.get(rank), TimeUnit.MILLISECONDS);
+	public long getRemovalDelay(Rank rank) {
+		return delays.get(rank);
 	}
 	
 	public void setRemovalDelay(Rank rank, Long value, TimeUnit unit) {
@@ -172,6 +177,7 @@ public class WorldBlockConfig implements IConfiguration {
 
 	public void setLimit(Rank rank, int newLimit) {
 		config.set("limiter." + rank.getName(), newLimit);
+		limits.put(rank, newLimit);
 		saveConfig();
 	}
 

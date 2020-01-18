@@ -25,12 +25,15 @@ public class BlockPlace implements Listener {
 			int limit = typeInstance.getLimit(u.getRank());
 			if (limit > -1) {
 				if (u.getWorldBlocks(type).size() >= limit) {
+					u.sendMessage("&cError: You have reached your ranks limit for this blocktype!");
 					e.setCancelled(true);
 					return;
 				}
 			}
-			WorldBlock finalBlock = new WorldBlock(type, e.getBlock().getLocation(), u);
-			typeInstance.addInstance(finalBlock);
+			if (!e.isCancelled()) {
+				WorldBlock finalBlock = new WorldBlock(type, e.getBlock().getLocation(), u);
+				typeInstance.addInstance(finalBlock);
+			}
 			break;
 		}
 	}

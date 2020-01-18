@@ -18,8 +18,9 @@ public class TimeUtil {
 		long seconds = TimeUnit.MILLISECONDS.toSeconds(localTime);
 		String daysString = !includeZeroes ? days != 0 ? days + " Days, " : "" : days + " Days, ";
 		String hoursString = !includeZeroes ? hours != 0 ? hours + " Hours, " : "" : hours + " Hours, ";
-		String minutesString = !includeZeroes ? minutes != 0 ? minutes + " Minutes, " : "" : minutes + " Minutes, ";
-		return daysString + hoursString + minutesString + seconds + " Seconds.";
+		String minutesString = !includeZeroes ? minutes != 0 ? seconds != 0 ? minutes + " Minutes, " : minutes + " Minutes" : "" : seconds != 0 ? minutes + " Minutes, " : minutes + " Minutes";
+		String secondsString = !includeZeroes ? seconds != 0 ? seconds + " Seconds," : "" : seconds + " Seconds ";
+		return daysString + hoursString + minutesString + secondsString;
 	}
 	
 }

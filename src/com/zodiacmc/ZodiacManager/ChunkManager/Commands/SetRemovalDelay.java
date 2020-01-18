@@ -42,7 +42,7 @@ public class SetRemovalDelay extends SubCommand {
 			timeUnitString = args[2];
 		} else {
 			for (WorldBlockType type : WorldBlockType.values()) {
-				if (type.name().equalsIgnoreCase(args[0])) {
+				if (type.name().equalsIgnoreCase(args[0]) || type.getCapitalization().equalsIgnoreCase(args[0])) {
 					blockType = type;
 					break;
 				}

@@ -42,12 +42,12 @@ public class ZodiacManager extends JavaPlugin {
 		getCommand("serverrestarter").setExecutor(ServerRestarter.getInstance().getBaseCommand());
 		
 		getCommand("autorank").setExecutor(AutoRank.getInstance().getBaseCommand());
-		
-		getCommand("chunkmanager").setExecutor(ChunkManager.getInstance().getBaseCommand());
 
 		getCommand("minimumprices").setExecutor(MinimumPrices.getInstance().getBaseCommand());
 		
 		getCommand("automalls").setExecutor(AutoMalls.getInstance().getBaseCommand());
+		
+		getCommand("chunkmanager").setExecutor(ChunkManager.getInstance().getBaseCommand());
 	}
 	
 	public void onDisable() {

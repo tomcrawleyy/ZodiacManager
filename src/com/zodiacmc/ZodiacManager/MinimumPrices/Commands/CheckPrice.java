@@ -52,7 +52,7 @@ public class CheckPrice extends SubCommand {
 				}
 			}
 		}
-		return true;
+		return this.error("There is no minimum price set for " + worldItem.getId() + ":" + worldItem.getData() + ".");
 	}
 
 }

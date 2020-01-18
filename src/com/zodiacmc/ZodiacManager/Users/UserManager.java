@@ -8,6 +8,9 @@ import java.util.Map;
 import org.bukkit.entity.Player;
 
 import com.zodiacmc.ZodiacManager.AutoRank.Ranking.RankType;
+import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlock;
+import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
+import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
 import com.zodiacmc.ZodiacManager.Cuboids.CuboidFactoryManager;
 import com.zodiacmc.ZodiacManager.Malls.Commands.IgnoreProtection;
 
@@ -76,8 +79,17 @@ public class UserManager {
 		}
 		onlineUsers.put(p.getName(), u);
 		onlineUserList.add(u);
+		u.handleDailyRewards();
 		if (u.getRank().getRankType() == RankType.STAFF)
 			onlineStaffList.add(u);
+		for (WorldBlockType type : WorldBlockType.values()) {
+			WorldBlockConfig config = WorldBlockConfig.getInstance(type);
+			if (config.destroyOnLogout()) {
+				for (WorldBlock block : u.getWorldBlocks(type)) {
+					block.login();
+				}
+			}
+		}
 	}
 
 	public void logout(Player p) {

@@ -7,6 +7,7 @@ import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlock;
 import com.zodiacmc.ZodiacManager.ChunkManager.Blocks.WorldBlockType;
 import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
 import com.zodiacmc.ZodiacManager.Commands.SubCommand;
+import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
 
 public class ClearAll extends SubCommand {
 	
@@ -19,9 +20,9 @@ public class ClearAll extends SubCommand {
 			return this.usage("ChunkManager ClearAll <BlockType>");
 		WorldBlockType block = null;
 		for (WorldBlockType type : WorldBlockType.values()) {
-			if (type.name().equalsIgnoreCase(args[0])) {
+			if (type.name().equalsIgnoreCase(args[0]) || type.getCapitalization().equalsIgnoreCase(args[0])) {
 				block = type;
-				continue;
+				break;
 			}
 		}
 		if (block == null)
@@ -33,11 +34,13 @@ public class ClearAll extends SubCommand {
 		}
 		WorldBlockConfig config = WorldBlockConfig.getInstance(block);
 		int blocksDestroyed = 0;
+		ConsoleUtil.sendMessage("instanceSize: " + config.getInstances().size());
 		for (WorldBlock localBlock : config.getInstances()) {
 			localBlock.destroy();
 			blocksDestroyed++;
-			config.removeInstance(localBlock);
+			localBlock.getPlacedBy().getWorldBlocks(localBlock.getType()).remove(localBlock);
 		}
+		config.clearInstances();
 		return this.success("A total of " + blocksDestroyed + " have been removed from the world!");
 	}
 }

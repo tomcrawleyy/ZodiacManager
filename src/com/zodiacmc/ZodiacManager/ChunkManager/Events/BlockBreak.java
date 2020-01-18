@@ -11,23 +11,26 @@ import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
 import com.zodiacmc.ZodiacManager.Utilities.LocationUtil;
 
 public class BlockBreak implements Listener {
-	
+
 	@EventHandler
 	public void onBreak(BlockBreakEvent e) {
 		for (WorldBlockType type : WorldBlockType.values()) {
 			if (e.getBlock().getTypeId() != type.getID())
 				continue;
 			if (type.getData() != -1)
-				if (e.getBlock().getData() != (byte)type.getData())
+				if (e.getBlock().getData() != (byte) type.getData())
 					continue;
 			WorldBlockConfig config = WorldBlockConfig.getInstance(type);
 			WorldBlock block = config.getPlacedAt(e.getBlock().getLocation());
 			if (block == null) {
-				ConsoleUtil.sendMessage("&cError: BlockBreak 29 at " + LocationUtil.toString(e.getBlock().getLocation()));
+				ConsoleUtil
+						.sendMessage("&cError: BlockBreak 29 at " + LocationUtil.toString(e.getBlock().getLocation()));
 			}
-			block.destroy();
-			block.getPlacedBy().getWorldBlocks(type).remove(block);
-			config.removeInstance(block);
+			if (!e.isCancelled()) {
+				block.destroy();
+				block.getPlacedBy().getWorldBlocks(type).remove(block);
+				config.removeInstance(block);
+			}
 		}
 	}
 

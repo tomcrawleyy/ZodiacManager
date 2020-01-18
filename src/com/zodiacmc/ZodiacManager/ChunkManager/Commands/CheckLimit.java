@@ -29,7 +29,7 @@ public class CheckLimit extends SubCommand {
 		WorldBlockType block = null;
 		for (WorldBlockType type : WorldBlockType.values()) {
 			if (args.length > 0) {
-				if (args[0].equalsIgnoreCase(type.name())) {
+				if (args[0].equalsIgnoreCase(type.name()) || args[0].equalsIgnoreCase(type.getCapitalization())) {
 					block = type;
 					break;
 				}
