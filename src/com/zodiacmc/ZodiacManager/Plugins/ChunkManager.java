@@ -14,6 +14,7 @@ import com.zodiacmc.ZodiacManager.ChunkManager.Commands.SetRemovalDelay;
 import com.zodiacmc.ZodiacManager.ChunkManager.Commands.SetRemoveAfterLogout;
 import com.zodiacmc.ZodiacManager.ChunkManager.Commands.UnloadBlocks;
 import com.zodiacmc.ZodiacManager.ChunkManager.Configurations.WorldBlockConfig;
+import com.zodiacmc.ZodiacManager.ChunkManager.Scheduling.BlockUpdater;
 import com.zodiacmc.ZodiacManager.Commands.BaseCommand;
 import com.zodiacmc.ZodiacManager.Configurations.FileManager;
 import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
@@ -50,6 +51,7 @@ public class ChunkManager implements IPlugin {
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.ChunkManager.Events.BlockBreak(), ZodiacManager.getInstance());
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.ChunkManager.Events.BlockPlace(), ZodiacManager.getInstance());
 		Bukkit.getPluginManager().registerEvents(new com.zodiacmc.ZodiacManager.ChunkManager.Events.FillerPatch(), ZodiacManager.getInstance());
+		BlockUpdater.getInstance().start(this);
 	}
 	
 	@Override

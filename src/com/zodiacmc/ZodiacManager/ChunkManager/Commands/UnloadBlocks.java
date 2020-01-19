@@ -22,7 +22,7 @@ public class UnloadBlocks extends SubCommand {
 		int count = 0;
 		if (args[0].equalsIgnoreCase("all")) {
 			for (WorldBlock block : WorldBlock.getScheduledBlocks()) {
-				block.destroy();
+				block.destroy(true);
 				count++;
 			}
 			for (User user : WorldBlock.getScheduledRemovals().keySet()) {
@@ -52,7 +52,7 @@ public class UnloadBlocks extends SubCommand {
 		}
 		for (WorldBlock localBlock : WorldBlock.getScheduledBlocks()) {
 			if (localBlock.getType() == block) {
-				localBlock.destroy();
+				localBlock.destroy(true);
 				count++;
 			}
 		}

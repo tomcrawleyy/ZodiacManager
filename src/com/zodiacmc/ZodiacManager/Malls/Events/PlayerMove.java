@@ -12,7 +12,6 @@ import com.zodiacmc.ZodiacManager.Cuboids.Cuboid;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Malls.Enums.MallType;
-import com.zodiacmc.ZodiacManager.Plugins.AutoMalls;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
 import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
@@ -78,7 +77,7 @@ public class PlayerMove implements Listener {
 				u.sendMessage(prefix + "&aWelcome back to your shop!");
 				u.sendMessage(prefix + "&aThis shop will expire in " + TimeUtil.getReadableTime(shop.getTimeLeft(), TimeUnit.MILLISECONDS, false));
 			} else if (shop.getOwner() == null) {
-				u.sendMessage(prefix + "&aThis shop is for sale! Price per day: $" + shop.getPrice() + ", 7 days included in initial lease.");
+				u.sendMessage(prefix + "&aThis shop is for sale! Upfront cost: $"+ (shop.getPrice()*7) +", Price per day: $" + shop.getPrice() + ", 7 days included in initial lease.");
 			} else {
 				u.sendMessage(prefix + "You are now entering " + shop.getOwner().getName() + "'s shop!");
 			}

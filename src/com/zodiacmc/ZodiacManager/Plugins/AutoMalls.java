@@ -10,6 +10,7 @@ import com.zodiacmc.ZodiacManager.Malls.Commands.AbandonShop;
 import com.zodiacmc.ZodiacManager.Malls.Commands.AddShop;
 import com.zodiacmc.ZodiacManager.Malls.Commands.CheckPermissions;
 import com.zodiacmc.ZodiacManager.Malls.Commands.CheckTime;
+import com.zodiacmc.ZodiacManager.Malls.Commands.DeleteShops;
 import com.zodiacmc.ZodiacManager.Malls.Commands.ExitSetupMode;
 import com.zodiacmc.ZodiacManager.Malls.Commands.Home;
 import com.zodiacmc.ZodiacManager.Malls.Commands.IgnoreProtection;
@@ -19,11 +20,13 @@ import com.zodiacmc.ZodiacManager.Malls.Commands.RenewLease;
 import com.zodiacmc.ZodiacManager.Malls.Commands.RentShop;
 import com.zodiacmc.ZodiacManager.Malls.Commands.SetDailyPrice;
 import com.zodiacmc.ZodiacManager.Malls.Commands.SetMall;
+import com.zodiacmc.ZodiacManager.Malls.Commands.SetMallWarp;
 import com.zodiacmc.ZodiacManager.Malls.Commands.SetTimeLeft;
 import com.zodiacmc.ZodiacManager.Malls.Commands.SetWarp;
 import com.zodiacmc.ZodiacManager.Malls.Commands.Trust;
 import com.zodiacmc.ZodiacManager.Malls.Commands.Untrust;
 import com.zodiacmc.ZodiacManager.Malls.Commands.Warp;
+import com.zodiacmc.ZodiacManager.Malls.Commands.WarpMall;
 import com.zodiacmc.ZodiacManager.Malls.Configurations.MallConfig;
 import com.zodiacmc.ZodiacManager.Malls.Scheduling.ShopUpdater;
 import com.zodiacmc.ZodiacManager.Utilities.ConsoleUtil;
@@ -58,6 +61,7 @@ public class AutoMalls implements IPlugin{
 		baseCommand.instantiateCommand(new AddShop());
 		baseCommand.instantiateCommand(new CheckPermissions());
 		baseCommand.instantiateCommand(new CheckTime());
+		baseCommand.instantiateCommand(new DeleteShops());
 		baseCommand.instantiateCommand(new ExitSetupMode());
 		baseCommand.instantiateCommand(new Home());
 		baseCommand.instantiateCommand(new IgnoreProtection());
@@ -67,11 +71,13 @@ public class AutoMalls implements IPlugin{
 		baseCommand.instantiateCommand(new RentShop());
 		baseCommand.instantiateCommand(new SetDailyPrice());
 		baseCommand.instantiateCommand(new SetMall());
+		baseCommand.instantiateCommand(new SetMallWarp());
 		baseCommand.instantiateCommand(new SetTimeLeft());
 		baseCommand.instantiateCommand(new SetWarp());
 		baseCommand.instantiateCommand(new Trust());
 		baseCommand.instantiateCommand(new Untrust());
 		baseCommand.instantiateCommand(new Warp());
+		baseCommand.instantiateCommand(new WarpMall());
 		ShopUpdater.getInstance().start(this);
 	}
 	

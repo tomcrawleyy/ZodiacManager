@@ -64,6 +64,9 @@ public class MallConfig implements IConfiguration {
 				String mallCuboidString = this.config.getString("Malls." + type.getReadableName() + ".Cuboid");
 				Cuboid mallCuboid = CuboidSerializer.deserialize(mallCuboidString, CuboidType.MALL);
 				Mall mall = new Mall(type, mallCuboid);
+				if (this.config.isString("Malls." + type.getReadableName() + ".Warp")) {
+					mall.setWarp(LocationUtil.fromString(this.config.getString("Malls." + type.getReadableName() + ".Warp")));
+				}
 				for (int i = 0; i < 1000; i++) {
 					if (!this.config.isConfigurationSection("Malls." + type.getReadableName() + ".Shops." + i)) {
 						ConsoleUtil.sendMessage("DebugMessage 1 " + i + " " + type.getReadableName());
@@ -127,6 +130,9 @@ public class MallConfig implements IConfiguration {
 
 	public void saveMall(Mall mall) {
 		config.set("Malls." + mall.getType().getReadableName() + ".Cuboid", mall.getCuboid().serialize());
+		if (mall.getWarp() != null) {
+			config.set("Malls." + mall.getType().getReadableName() + ".Warp", LocationUtil.toString(mall.getWarp()));
+		}
 		saveConfig();
 		for (Shop shop : mall.getShops()) {
 			saveShop(shop);

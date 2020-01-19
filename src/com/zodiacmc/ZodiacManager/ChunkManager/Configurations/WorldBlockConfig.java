@@ -133,12 +133,6 @@ public class WorldBlockConfig implements IConfiguration {
 			return;
 		}
 		instances.remove(block);
-		if (!instances.isEmpty()) {
-			config.set("instances", instances);
-		} else {
-			config.set("instances", new ArrayList<String>());
-		}
-		saveConfig();
 	}
 
 	@Override

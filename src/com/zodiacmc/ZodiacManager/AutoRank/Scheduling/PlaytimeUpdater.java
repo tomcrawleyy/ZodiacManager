@@ -26,13 +26,12 @@ public class PlaytimeUpdater implements IScheduler {
 	
 	public void start(IPlugin plugin) {
 		try {
-			task = ScheduledTask.Builder.create("User Updater", plugin).repeat(1, TimeUnit.MINUTES).delay(1, TimeUnit.SECONDS)
+			task = ScheduledTask.Builder.create("User Updater", plugin).repeat(5, TimeUnit.MINUTES).delay(1, TimeUnit.SECONDS)
 					.execute(task -> {
 						String prefix = AutoRank.getInstance().getBaseCommand().getPrefix();
-						ConsoleUtil.sendMessage(prefix + " Saving Users....");
+						ConsoleUtil.sendMessage(prefix + " Saving Users");
 						for (User user : UserManager.getInstance().getOnlineUsers()) {
-							long oldTimePlayed = user.getTimePlayed(false);
-							ConsoleUtil.sendMessage(prefix + " Saving User: " + user.getName() + ", Old Playtime: " + oldTimePlayed + ", New Playtime: " + user.getTimePlayed(true));
+							user.getTimePlayed(true);
 						}
 					}).start();
 		} catch(ScheduledTaskException e) {

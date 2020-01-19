@@ -89,6 +89,8 @@ public class Cuboid {
 	}
 	
 	public boolean isInCuboid(Location loc) {
+		if (this.world.getName() != loc.getWorld().getName())
+			return false;
 		if (loc.getBlockX() > this.upperX | loc.getBlockX() < this.lowerX)
 			return false;
 		if (loc.getBlockY() > this.upperY | loc.getBlockY() < this.lowerY)

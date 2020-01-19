@@ -47,15 +47,16 @@ public class WorldBlock {
 		return loadedInstances.get(type);
 	}
 
-	public void destroy() {
+	public void destroy(boolean setType) {
 		WorldBlock.getLoadedInstances(type).remove(this);
-		this.location.getBlock().setType(Material.AIR);
+		if (setType)
+			this.location.getBlock().setType(Material.AIR);
 		if (WorldBlock.getScheduledBlocks().contains(this)) {
 			WorldBlock.getScheduledBlocks().remove(this);
 		}
-		
+
 	}
-	
+
 	public void login() {
 		this.location.getBlock().setTypeId(type.getID());
 		if (type.getData() != -1)

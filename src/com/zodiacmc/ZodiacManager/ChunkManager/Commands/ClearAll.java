@@ -36,7 +36,7 @@ public class ClearAll extends SubCommand {
 		int blocksDestroyed = 0;
 		ConsoleUtil.sendMessage("instanceSize: " + config.getInstances().size());
 		for (WorldBlock localBlock : config.getInstances()) {
-			localBlock.destroy();
+			localBlock.destroy(true);
 			blocksDestroyed++;
 			localBlock.getPlacedBy().getWorldBlocks(localBlock.getType()).remove(localBlock);
 		}

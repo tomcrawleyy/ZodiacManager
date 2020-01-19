@@ -34,7 +34,7 @@ public class RankUpdater {
 			return;
 		}
 		for (String reward : newRank.getRankupRewards()) {
-			ConsoleUtil.sendMessage(reward);
+			ConsoleUtil.sendMessage(reward.replace("%player%", user.getName()));
 			Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), reward.replace("%player%", user.getName()));
 		}
 		Player player = Bukkit.getServer().getPlayer(user.getName());
