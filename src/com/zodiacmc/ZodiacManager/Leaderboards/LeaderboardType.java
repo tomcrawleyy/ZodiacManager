@@ -11,9 +11,7 @@ package com.zodiacmc.ZodiacManager.Leaderboards;
  */
 public enum LeaderboardType {
     /* ---------- Enumerations ---------- */
-    TYPE_1(),
-    TYPE_2(),
-    TYPE_3();
+    AUTO_RANK("oldplaytimes.yml");
 
 
 
