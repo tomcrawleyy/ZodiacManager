@@ -3,6 +3,7 @@ package com.zodiacmc.ZodiacManager.Plugins;
 import com.zodiacmc.ZodiacManager.AutoRank.Commands.Check;
 import com.zodiacmc.ZodiacManager.AutoRank.Commands.ChoosePrefix;
 import com.zodiacmc.ZodiacManager.AutoRank.Commands.Demote;
+import com.zodiacmc.ZodiacManager.AutoRank.Commands.Leaderboard;
 import com.zodiacmc.ZodiacManager.AutoRank.Commands.Promote;
 import com.zodiacmc.ZodiacManager.AutoRank.Commands.SetPlaytime;
 import com.zodiacmc.ZodiacManager.AutoRank.Commands.SetRank;
@@ -42,6 +43,7 @@ public class AutoRank implements IPlugin {
 		baseCommand.instantiateCommand(new SetPlaytime());
 		baseCommand.instantiateCommand(new SetRank());
 		baseCommand.instantiateCommand(new ChoosePrefix());
+		baseCommand.instantiateCommand(new Leaderboard());
 		PlaytimeUpdater.getInstance().start(this);
 	}
 
