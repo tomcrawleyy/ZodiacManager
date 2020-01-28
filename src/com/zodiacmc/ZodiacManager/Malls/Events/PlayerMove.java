@@ -2,20 +2,19 @@ package com.zodiacmc.ZodiacManager.Malls.Events;
 
 import java.util.concurrent.TimeUnit;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
-
 import com.zodiacmc.ZodiacManager.AutoRank.Ranking.RankType;
 import com.zodiacmc.ZodiacManager.Cuboids.Cuboid;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Mall;
 import com.zodiacmc.ZodiacManager.Malls.Cuboids.Shop;
 import com.zodiacmc.ZodiacManager.Malls.Enums.MallType;
-import com.zodiacmc.ZodiacManager.Plugins.AutoMalls;
 import com.zodiacmc.ZodiacManager.Users.User;
 import com.zodiacmc.ZodiacManager.Users.UserManager;
 import com.zodiacmc.ZodiacManager.Utilities.TimeUtil;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class PlayerMove implements Listener {
 
