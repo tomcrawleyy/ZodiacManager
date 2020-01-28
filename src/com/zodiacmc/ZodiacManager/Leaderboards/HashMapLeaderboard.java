@@ -16,14 +16,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import com.zodiacmc.ZodiacManager.Plugins.IPlugin;
-
-import org.bukkit.configuration.file.FileConfiguration;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * A more efficient way of storing leaderboard information using java HashMaps.
+ * A more efficient way of storing leaderboard information using Java HashMaps.
  * 
  * @param <K> The type for each key value in the leaderboard. Every key is
  *            unique, however more constraints can be added.
@@ -36,11 +33,11 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class HashMapLeaderboard<K, V extends Comparable<V>> {
     private LinkedHashMap<K, V> leaderboard;
-    private LeaderboardType type;
-    private transient IPlugin plugin;
+    // private LeaderboardType type;
+    // private transient IPlugin plugin;
 
-    private transient File file;
-    private transient FileConfiguration config;
+    // private transient File file;
+    // private transient FileConfiguration config;
 
     public Predicate<K> keyConstraint;
     public Predicate<V> valueConstraint;
@@ -65,17 +62,17 @@ public class HashMapLeaderboard<K, V extends Comparable<V>> {
         this.valueConstraint = valueConstraint;
     }
 
-    /**
+    /*
      * Creates a new HashMapLeaderboard given the plugin and LeaderboardType.
      * 
      * @param plugin
      * @param type
      */
-    public HashMapLeaderboard(IPlugin plugin, LeaderboardType type) {
-        this();
-        this.plugin = plugin;
-        this.type = type;
-    }
+    // public HashMapLeaderboard(IPlugin plugin, LeaderboardType type) {
+    //     this();
+    //     this.plugin = plugin;
+    //     this.type = type;
+    // }
 
     /**
      * Get an element based on its key.
@@ -220,8 +217,7 @@ public class HashMapLeaderboard<K, V extends Comparable<V>> {
             return; // Don't bother sorting if it is already sorted.
         }
 
-
-
+        // If the leaderboard needs to be sorted, sort it here.
         Collections.sort(list, c);
         this.leaderboard = new LinkedHashMap<>();
 
@@ -261,10 +257,10 @@ public class HashMapLeaderboard<K, V extends Comparable<V>> {
     }
 
     /**
-     * 
-     * @param file
-     * @throws IOException
-     * @throws ClassCastException
+     * Load a saved leaderboard from a file.
+     * @param file The file holding values for each user.
+     * @throws IOException If the given file could not be found.
+     * @throws ClassCastException If the values in the file cannot be cast to generic parameters <K> and <V>.
      */
     public void load(File file) throws IOException, ClassCastException {
         Yaml yaml = new Yaml();
@@ -288,14 +284,14 @@ public class HashMapLeaderboard<K, V extends Comparable<V>> {
     }
 
     /**
-     * 
-     * @param file
-     * @throws ClassCastException when the types loaded do not match correctly.
+     * Load values into the leaderboard from a given String that is valid YAML.
+     * @param txt A vaild YAML String.
+     * @throws ClassCastException If the values in the file cannot be cast to generic parameters <K> and <V>.
      */
-    public void load(String file) throws ClassCastException {
+    public void load(String txt) throws ClassCastException {
         Yaml yaml = new Yaml();
         
-        Map<Object, Object> map = (Map<Object, Object>) yaml.load(file);
+        Map<Object, Object> map = (Map<Object, Object>) yaml.load(txt);
         
         for (Map.Entry<Object, Object> e : map.entrySet()) {
             if (!(e.getValue() instanceof Map)) {
