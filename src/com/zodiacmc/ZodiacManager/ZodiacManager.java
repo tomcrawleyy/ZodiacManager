@@ -55,7 +55,7 @@ public class ZodiacManager extends JavaPlugin {
 			WorldBlockConfig config = WorldBlockConfig.getInstance(type);
 			if (config.destroyOnLogout()) {
 				for (WorldBlock block : WorldBlock.getLoadedInstances(type)) {
-					block.destroy();
+					block.destroy(true);
 				}
 			}
 		}

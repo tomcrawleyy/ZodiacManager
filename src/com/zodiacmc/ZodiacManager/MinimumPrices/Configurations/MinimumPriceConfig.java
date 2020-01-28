@@ -22,6 +22,7 @@ public class MinimumPriceConfig implements IConfiguration {
 	private File file;
 	private static MinimumPriceConfig instance;
 	private Map<WorldItem, Integer> minimumPrices;
+	private Map<WorldItem, Integer> donorPrices;
 	
 	private MinimumPriceConfig() {
 	}
@@ -42,23 +43,32 @@ public class MinimumPriceConfig implements IConfiguration {
 		return file;
 	}
 	
-	public void addMinimumPrice(WorldItem item, Integer value) {
+	public void addMinimumPrice(WorldItem item, Integer value, Integer donorValue) {
 		minimumPrices.put(item, value);
+		donorPrices.put(item, donorValue);
 	}
 	
 	public void removeMinimumPrice(WorldItem item) {
 		minimumPrices.remove(item);
+		donorPrices.remove(item);
 	}
 	
 	public Map<WorldItem, Integer> getMinimumPrices(){
 		return minimumPrices;
 	}
 	
-	public void updateMinimumPrices() {
+	public Map<WorldItem, Integer> getDonorPrices() {
+		return donorPrices;
+	}
+	
+	public void updateConfig() {
 		List<String> serializedPrices = new ArrayList<String>();
+		List<String> serializedDonorPrices = new ArrayList<String>();
 		for (WorldItem item : minimumPrices.keySet()) {
+			serializedDonorPrices.add(item.serialize() + "," + donorPrices.get(item));
 			serializedPrices.add(item.serialize() + "," + minimumPrices.get(item));
 		}
+		config.set("donor-prices", serializedDonorPrices);
 		config.set("minimum-prices", serializedPrices);
 		saveConfig();
 	}
@@ -68,6 +78,7 @@ public class MinimumPriceConfig implements IConfiguration {
 		file = new File(p.getDataFolder() + "/MinimumPrices/", "minimum-prices.yml");
 		config = YamlConfiguration.loadConfiguration(file);
 		minimumPrices = new HashMap<WorldItem, Integer>();
+		donorPrices = new HashMap<WorldItem, Integer>();
 		if (!file.exists()) {
 			List<String> minPrices = new ArrayList<String>();
 			config.set("minimum-prices", minPrices);
@@ -78,6 +89,12 @@ public class MinimumPriceConfig implements IConfiguration {
 				WorldItem item = new WorldItem(data[0]);
 				minimumPrices.put(item, Integer.parseInt(data[1]));
 				ConsoleUtil.sendMessage("&f(&dMinimum&fPrices) Minimum price for " + data[0] + " has been set to " + Integer.parseInt(data[1]));
+			}
+			for (String minPrice : config.getStringList("donor-prices")) {
+				String[] data = minPrice.split(",");
+				WorldItem item = new WorldItem(data[0]);
+				donorPrices.put(item, Integer.parseInt(data[1]));
+				ConsoleUtil.sendMessage("&f(&dMinimum&fPrices) Donator Minimum price for " + data[0] + " has been set to " + Integer.parseInt(data[1]));
 			}
 		}
 	}

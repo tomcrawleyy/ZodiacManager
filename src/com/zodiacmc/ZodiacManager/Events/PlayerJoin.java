@@ -12,6 +12,8 @@ public class PlayerJoin implements Listener {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
+		if (e.getPlayer().getName().equalsIgnoreCase("[MFFS]"))
+			return;
 		UserManager.getInstance().login(e.getPlayer());
 		for (IPlayerJoinListener listener : PlayerJoinListener.getInstance().getListeners()) {
 			listener.onJoin(e);

@@ -11,16 +11,10 @@ public class Info extends SubCommand {
 		super("Info", false);
 	}
 
-	@Override
 	public boolean processCommand(CommandSender sender, String[] args) {
 		if (args.length > 0)
 			return this.usage("ServerRestarter Info");
 		return this.resolve("There is &f[&d" + RestartScheduler.getInstance().getTimeLeft() + "&f] &auntil the next scheduled restart.");
-	}
-
-	@Override
-	public String permissionRequired() {
-		return null;
 	}
 
 }

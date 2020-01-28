@@ -19,6 +19,7 @@ public class CheckPrice extends SubCommand {
 
 	public boolean processCommand(CommandSender sender, String[] args) {
 		Map<WorldItem, Integer> minimumPrices = MinimumPriceConfig.getInstance().getMinimumPrices();
+		Map<WorldItem, Integer> donorPrices = MinimumPriceConfig.getInstance().getDonorPrices();
 		if (args.length != 1) {
 			if (!(sender instanceof Player))
 				return this.usage("MinimumPrices CheckPrice <ItemID:ItemData>");
@@ -30,8 +31,9 @@ public class CheckPrice extends SubCommand {
 				if (worldItem.getId() == localItem.getId()) {
 					if (localItem.getData() == -1 | localItem.getData() == worldItem.getData()) {
 						int minimumPrice = minimumPrices.get(localItem);
+						int donorPrice = donorPrices.get(localItem);
 						return this.resolve(
-								"The minimum price for the item you are holding is " + minimumPrice + " each.");
+								"The minimum price for the item you are holding is " + minimumPrice + " each for players and " + donorPrice + " for donators.");
 					}
 				}
 			}
@@ -47,8 +49,9 @@ public class CheckPrice extends SubCommand {
 			if (localItem.getId() == worldItem.getId()) {
 				if (localItem.getData() == -1 | localItem.getData() == worldItem.getData()) {
 					int minimumPrice = minimumPrices.get(localItem);
+					int donorPrice = donorPrices.get(localItem);
 					return this.resolve("The minimum price for " + worldItem.getId() + ":" + worldItem.getData()
-							+ " is " + minimumPrice + ".");
+							+ " is " + minimumPrice + " for players and " + donorPrice + " for donators.");
 				}
 			}
 		}

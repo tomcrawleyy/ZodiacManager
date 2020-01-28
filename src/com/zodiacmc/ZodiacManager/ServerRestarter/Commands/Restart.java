@@ -12,15 +12,9 @@ public class Restart extends SubCommand {
 		super("Restart", false);
 	}
 
-	@Override
 	public boolean processCommand(CommandSender sender, String[] args) {
 		RestartScheduler.getInstance().forceRestart();
 		return this.success("The server will now restart!");
-	}
-
-	@Override
-	public String permissionRequired() {
-		return "ServerRestarter.Restart";
 	}
 
 }

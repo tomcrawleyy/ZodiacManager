@@ -93,14 +93,14 @@ public class User {
 			long delay = config.getRemovalDelay(rank);
 			if (delay == 0) {
 				for (WorldBlock block : this.getWorldBlocks(type)) {
-					block.destroy();
+					block.destroy(true);
 				}
 			} else {
 				try {
 					ScheduledTask t = ScheduledTask.Builder.create(name + "WorldBlockRemover: " + type.name(), ChunkManager.getInstance())
 							.delay((int) delay).execute(task -> {
 								for (WorldBlock block : this.getWorldBlocks(type)) {
-									block.destroy();
+									block.destroy(true);
 								}
 								WorldBlock.getScheduledRemovals().get(this).remove(task);
 							}).start();
